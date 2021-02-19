@@ -1,10 +1,10 @@
 const app = require('../app')
 const request = require('supertest')
-const { clearClients, registerClient } = require('./helpers/helpers_client')
+const { clearTherapists, registerTherapist } = require('./helpers/helpers_therapist')
 
-describe('POST/register/client', function() {
+describe('POST/register/therapist', function() {
   afterAll(function(done) {
-      clearClients()
+      clearTherapists()
       .then(data => {
           done()
       })
@@ -21,11 +21,16 @@ describe('POST/register/client', function() {
           photoUrl: 'tyusdgtfu',
           birthDate: new Date(),
           gender: 'male',
-          city: 'jakarta'
+          city: 'jakarta',
+          licenseUrl: 'asad',
+          price: 5000,
+          status: true,
+          about: 'asdasd',
+          rating: 0
       }
       //execute
       request(app)
-          .post('/register/client')
+          .post('/register/therapist')
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -47,6 +52,16 @@ describe('POST/register/client', function() {
               expect(res.body.gender).toEqual(body.gender)
               expect(res.body).toHaveProperty('city')
               expect(res.body.city).toEqual(body.city)
+              expect(res.body).toHaveProperty('licenseUrl')
+              expect(res.body.licenseUrl).toEqual(body.licenseUrl)
+              expect(res.body).toHaveProperty('price')
+              expect(res.body.price).toEqual(body.price)
+              expect(res.body).toHaveProperty('status')
+              expect(res.body.status).toEqual(body.status)
+              expect(res.body).toHaveProperty('about')
+              expect(res.body.about).toEqual(body.about)
+              expect(res.body).toHaveProperty('rating')
+              expect(res.body.rating).toEqual(body.rating)
 
               done()
           })
@@ -61,11 +76,16 @@ describe('POST/register/client', function() {
           photoUrl: 'tyusdgtfu',
           birthDate: new Date(),
           gender: 'male',
-          city: 'jakarta'
+          city: 'jakarta',
+          licenseUrl: 'asad',
+          price: 5000,
+          status: true,
+          about: 'asdasd',
+          rating: 0
       }
       //execute
       request(app)
-          .post('/register/client')
+          .post('/register/therapist')
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -92,11 +112,16 @@ describe('POST/register/client', function() {
           photoUrl: 'tyusdgtfu',
           birthDate: new Date(),
           gender: 'male',
-          city: 'jakarta'
+          city: 'jakarta',
+          licenseUrl: 'asad',
+          price: 5000,
+          status: true,
+          about: 'asdasd',
+          rating: 0
       }
       //execute
       request(app)
-          .post('/register/client')
+          .post('/register/therapist')
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -114,7 +139,6 @@ describe('POST/register/client', function() {
           })
 
   })
-  
   it('should send response with 400 status code', function(done) {
       //setup
       const body = {
@@ -124,11 +148,16 @@ describe('POST/register/client', function() {
           photoUrl: 'tyusdgtfu',
           birthDate: new Date(),
           gender: 'male',
-          city: 'jakarta'
+          city: 'jakarta',
+          licenseUrl: 'asad',
+          price: 5000,
+          status: true,
+          about: 'asdasd',
+          rating: 0
       }
       //execute
       request(app)
-          .post('/register/client')
+          .post('/register/therapist')
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -155,11 +184,16 @@ describe('POST/register/client', function() {
         photoUrl: '',
         birthDate: new Date(),
         gender: 'male',
-        city: 'jakarta'
+        city: 'jakarta',
+        licenseUrl: 'asad',
+        price: 5000,
+        status: true,
+        about: 'asdasd',
+        rating: 0
     }
     //execute
     request(app)
-        .post('/register/client')
+        .post('/register/therapist')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -186,11 +220,16 @@ describe('POST/register/client', function() {
         photoUrl: 'tyusdgtfu',
         birthDate: '',
         gender: 'male',
-        city: 'jakarta'
+        city: 'jakarta',
+        licenseUrl: 'asad',
+        price: 5000,
+        status: true,
+        about: 'asdasd',
+        rating: 0
     }
     //execute
     request(app)
-        .post('/register/client')
+        .post('/register/therapist')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -211,17 +250,22 @@ describe('POST/register/client', function() {
   it('should send response with 400 status code', function(done) {
     //setup
     const body = {
-        fullName: 'asdas',
+        fullName: 'asd',
         email: 'tes@mail.com',
         password: 'tes123',
         photoUrl: 'tyusdgtfu',
         birthDate: new Date(),
         gender: '',
-        city: 'jakarta'
+        city: 'jakarta',
+        licenseUrl: 'asad',
+        price: 5000,
+        status: true,
+        about: 'asdasd',
+        rating: 0
     }
     //execute
     request(app)
-        .post('/register/client')
+        .post('/register/therapist')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -248,11 +292,16 @@ describe('POST/register/client', function() {
         photoUrl: 'tyusdgtfu',
         birthDate: new Date(),
         gender: 'male',
-        city: ''
+        city: '',
+        licenseUrl: 'asad',
+        price: 5000,
+        status: true,
+        about: 'asdasd',
+        rating: 2.3
     }
     //execute
     request(app)
-        .post('/register/client')
+        .post('/register/therapist')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -270,5 +319,148 @@ describe('POST/register/client', function() {
         })
 
   })
+  it('should send response with 400 status code', function(done) {
+    //setup
+    const body = {
+        fullName: 'budisdfa',
+        email: 'tes@mail.com',
+        password: 'tes123',
+        photoUrl: 'tyusdgtfu',
+        birthDate: new Date(),
+        gender: 'male',
+        city: 'eins',
+        licenseUrl: '',
+        price: 5000,
+        status: true,
+        about: 'asdasd',
+        rating: 2.3
+    }
+    //execute
+    request(app)
+        .post('/register/therapist')
+        .send(body)
+        .end((err, res) => {
+            if (err) done(err)
 
+            //assert
+            expect(res.statusCode).toEqual(400)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(Array.isArray(res.body.message)).toEqual(true)
+            expect(res.body.message).toEqual(
+                expect.arrayContaining(['licenseUrl is required'])
+            )
+
+            done()
+        })
+
+  })
+  it('should send response with 400 status code', function(done) {
+    //setup
+    const body = {
+        fullName: 'budisdfa',
+        email: 'tes@mail.com',
+        password: 'tes123',
+        photoUrl: 'tyusdgtfu',
+        birthDate: new Date(),
+        gender: 'male',
+        city: 'eins',
+        licenseUrl: 'adasd',
+        price: -1,
+        status: true,
+        about: 'asdasd',
+        rating: 0
+    }
+    //execute
+    request(app)
+        .post('/register/therapist')
+        .send(body)
+        .end((err, res) => {
+            if (err) done(err)
+
+            //assert
+            expect(res.statusCode).toEqual(400)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(Array.isArray(res.body.message)).toEqual(true)
+            expect(res.body.message).toEqual(
+                expect.arrayContaining(['Minimum price is 0'])
+            )
+
+            done()
+        })
+
+  })
+  it('should send response with 400 status code', function(done) {
+    //setup
+    const body = {
+        fullName: 'budisdfa',
+        email: 'tes@mail.com',
+        password: 'tes123',
+        photoUrl: 'tyusdgtfu',
+        birthDate: new Date(),
+        gender: 'male',
+        city: 'eins',
+        licenseUrl: 'adasd',
+        price: "asd",
+        status: true,
+        about: 'asdasd',
+        rating: 0
+    }
+    //execute
+    request(app)
+        .post('/register/therapist')
+        .send(body)
+        .end((err, res) => {
+            if (err) done(err)
+
+            //assert
+            expect(res.statusCode).toEqual(400)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(Array.isArray(res.body.message)).toEqual(true)
+            expect(res.body.message).toEqual(
+                expect.arrayContaining(['Price must be a number'])
+            )
+
+            done()
+        })
+
+  })
+  it('should send response with 400 status code', function(done) {
+    //setup
+    const body = {
+        fullName: 'budisdfa',
+        email: 'tes@mail.com',
+        password: 'tes123',
+        photoUrl: 'tyusdgtfu',
+        birthDate: new Date(),
+        gender: 'male',
+        city: 'eins',
+        licenseUrl: 'adasd',
+        price: 123333,
+        status: true,
+        about: '',
+        rating: 0
+    }
+    //execute
+    request(app)
+        .post('/register/therapist')
+        .send(body)
+        .end((err, res) => {
+            if (err) done(err)
+
+            //assert
+            expect(res.statusCode).toEqual(400)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(Array.isArray(res.body.message)).toEqual(true)
+            expect(res.body.message).toEqual(
+                expect.arrayContaining(['about is required'])
+            )
+
+            done()
+        })
+
+  })
 })
