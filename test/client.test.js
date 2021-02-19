@@ -42,7 +42,7 @@ describe('POST/register/client', function() {
               expect(res.body).toHaveProperty('photoUrl')
               expect(res.body.photoUrl).toEqual(body.photoUrl)
               expect(res.body).toHaveProperty('birthDate')
-              expect(res.body.birthDate).toEqual(`${body.birthDate.toISOString()}`)
+              expect(res.body.birthDate).toEqual(body.birthDate.toISOString())
               expect(res.body).toHaveProperty('gender')
               expect(res.body.gender).toEqual(body.gender)
               expect(res.body).toHaveProperty('city')
@@ -329,7 +329,7 @@ describe('POST/login/client/client', function() {
                 if (err) done(err)
 
                 //assert
-                expect(res.statusCode).toEqual(400)
+                expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('message')
                 expect(res.body.message).toEqual('Invalid Email / Password')
@@ -352,7 +352,7 @@ describe('POST/login/client/client', function() {
                 if (err) done(err)
 
                 //assert
-                expect(res.statusCode).toEqual(400)
+                expect(res.statusCode).toEqual(401)
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('message')
                 expect(res.body.message).toEqual('Invalid Email / Password')
