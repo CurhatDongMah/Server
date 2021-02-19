@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const env = process.env.NODE_ENV
+const env = process.env.NODE_ENV || 'development'
 const routes = require('./routes')
 const { errorHandler } = require('./middlewares/error_handler')
 const port = process.env.PORT || 3000
