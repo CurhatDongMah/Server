@@ -21,12 +21,13 @@ class TherapistController {
         res.status(201).json(data)
       })
       .catch(err => {
-        res.status(500).json(err.message)
+        next(err)
       }) 
   }
   
 
   static login (req, res, next) {
+    console.log('masuk login')
     let { email, password } = req.body
     Therapist.findOne({
       where: { email }
@@ -48,7 +49,9 @@ class TherapistController {
               }
           }
       })
-      .catch(next)
+      .catch(err => {
+        next(err)
+      })
   }
 
   static getAll(req, res) {
@@ -59,7 +62,7 @@ class TherapistController {
         res.status(200).json(data)
       })
       .catch(err => {
-        console.log(err.message);
+        next(err)
       })
   }
 

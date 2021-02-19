@@ -2,7 +2,7 @@ const app = require('../app')
 const request = require('supertest')
 const { clearTherapists, registerTherapist } = require('./helpers/helpers_therapist')
 
-describe('POST /therapist/register', function() {
+describe('therapist/register', function() {
   afterAll(function(done) {
       clearTherapists()
       .then(data => {
@@ -465,7 +465,7 @@ describe('POST /therapist/register', function() {
   })
 })
 
-describe('POST /login/therapist', function() {
+describe('POST /therapist/login', function() {
     beforeAll((done) => {
       registerTherapist()
         .then(data => {
@@ -492,7 +492,7 @@ describe('POST /login/therapist', function() {
       }
       // Execute
       request(app)
-        .post('/login/therapist')
+        .post('/therapist/login')
         .send(userObj)
         .end((err, res) => {
             if (err) done(err)
@@ -512,7 +512,7 @@ describe('POST /login/therapist', function() {
       }
       // Execute
       request(app)
-        .post('/login/therapist')
+        .post('/therapist/login')
         .send(userObj)
         .end((err, res) => {
             if(err) done(err)
@@ -531,7 +531,7 @@ describe('POST /login/therapist', function() {
       }
       // Execute
       request(app)
-        .post('/login/therapist')
+        .post('/therapist/login')
         .send(userObj)
         .end((err, res) => {
             if(err) done(err)
