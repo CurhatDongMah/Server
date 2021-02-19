@@ -315,7 +315,7 @@ describe('POST/login/client/client', function() {
             })
 
     })
-    it('1 should send response with 401 status code', function(done) {
+    it('1 should send response with 400 status code', function(done) {
         //setup
         const body = {
           email: 'emailNgasal@mail.com',
@@ -329,7 +329,7 @@ describe('POST/login/client/client', function() {
                 if (err) done(err)
 
                 //assert
-                expect(res.statusCode).toEqual(401)
+                expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('message')
                 expect(res.body.message).toEqual('Invalid Email / Password')
@@ -352,7 +352,7 @@ describe('POST/login/client/client', function() {
                 if (err) done(err)
 
                 //assert
-                expect(res.statusCode).toEqual(401)
+                expect(res.statusCode).toEqual(400)
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('message')
                 expect(res.body.message).toEqual('Invalid Email / Password')
