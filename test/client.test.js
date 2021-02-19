@@ -19,7 +19,7 @@ describe('POST/register/client', function() {
           email: 'tes@mail.com',
           password: 'tes123',
           photoUrl: 'tyusdgtfu',
-          birthDate: new Date(),
+          birthDate: new Date('2001-04-01'),
           gender: 'male',
           city: 'jakarta'
       }
@@ -59,7 +59,7 @@ describe('POST/register/client', function() {
           email: '',
           password: 'tes123',
           photoUrl: 'tyusdgtfu',
-          birthDate: new Date(),
+          birthDate: new Date('2001-04-01'),
           gender: 'male',
           city: 'jakarta'
       }
@@ -90,7 +90,7 @@ describe('POST/register/client', function() {
           email: 'tes@mail.com',
           password: '',
           photoUrl: 'tyusdgtfu',
-          birthDate: new Date(),
+          birthDate: new Date('2001-04-01'),
           gender: 'male',
           city: 'jakarta'
       }
@@ -122,7 +122,7 @@ describe('POST/register/client', function() {
           email: 'tes@mail.com',
           password: 'tes123',
           photoUrl: 'tyusdgtfu',
-          birthDate: new Date(),
+          birthDate: new Date('2001-04-01'),
           gender: 'male',
           city: 'jakarta'
       }
@@ -153,7 +153,7 @@ describe('POST/register/client', function() {
         email: 'tes@mail.com',
         password: 'tes123',
         photoUrl: '',
-        birthDate: new Date(),
+        birthDate: new Date('2001-04-01'),
         gender: 'male',
         city: 'jakarta'
     }
@@ -215,7 +215,7 @@ describe('POST/register/client', function() {
         email: 'tes@mail.com',
         password: 'tes123',
         photoUrl: 'tyusdgtfu',
-        birthDate: new Date(),
+        birthDate: new Date('2001-04-01'),
         gender: '',
         city: 'jakarta'
     }
@@ -246,7 +246,7 @@ describe('POST/register/client', function() {
         email: 'tes@mail.com',
         password: 'tes123',
         photoUrl: 'tyusdgtfu',
-        birthDate: new Date(),
+        birthDate: new Date('2001-04-01'),
         gender: 'male',
         city: ''
     }
@@ -271,4 +271,95 @@ describe('POST/register/client', function() {
 
   })
 
+})
+
+describe('POST/login/client/client', function() {
+    beforeAll(function(done) {
+        registerClient()
+        .then(data => {
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+    afterAll(function(done) {
+        clearClients()
+        .then(data => {
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+    it('should send response with 200 status code', function(done) {
+        //setup
+        const body = {
+          email: 'tes@mail.com',
+          password: 'tes123',
+        }
+        //execute
+        request(app)
+            .post('/login/client')
+            .send(body)
+            .end((err, res) => {
+                if (err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(200)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('access_token')
+                expect(typeof res.body.access_token).toEqual('string')
+
+                done()
+            })
+
+    })
+    it('1 should send response with 401 status code', function(done) {
+        //setup
+        const body = {
+          email: 'emailNgasal@mail.com',
+          password: 'tes123',
+        }
+        //execute
+        request(app)
+            .post('/login/client')
+            .send(body)
+            .end((err, res) => {
+                if (err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('Invalid Email / Password')
+
+                done()
+            })
+
+    })
+    it('2 should send response with 401 status code', function(done) {
+        //setup
+        const body = {
+          email: 'tes@mail.com',
+          password: 'passwordNgasal',
+        }
+        //execute
+        request(app)
+            .post('/login/client')
+            .send(body)
+            .end((err, res) => {
+                if (err) done(err)
+
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('Invalid Email / Password')
+
+                done()
+
+            })
+
+    })
 })

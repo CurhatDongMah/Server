@@ -10,9 +10,13 @@ function clearClients() {
 function registerClient() {
     if (process.env.NODE_ENV === 'test') {
         const obj = {
-            email: 'tes5@mail.com',
-            password: '123123',
-            role: 'admin'
+          fullName: 'budi test',
+          email: 'tes@mail.com',
+          password: 'tes123',
+          photoUrl: 'tyusdgtfu',
+          birthDate: new Date('2001-04-01'),
+          gender: 'male',
+          city: 'jakarta'
         }
         return Client.create(obj)
     }
