@@ -12,6 +12,14 @@ function errorHandler(err, req, res, next) {
                     })
                     res.status(400).json({message: errMes})
                     break
+                case 'SequelizeUniqueConstraintError':
+                    // console.log(err.errors)
+                    let errMes2 = err.errors.map(el => {
+                        // console.log(el.message, 'ini message dri valid')
+                        return el.message
+                    })
+                    res.status(400).json({message: errMes2})
+                    break
                 case 'Internal Server Error': 
                     res.status(500).json({message: 'Internal Server Error'})
                     break

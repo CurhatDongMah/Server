@@ -42,7 +42,7 @@ describe('POST/register/client', function() {
               expect(res.body).toHaveProperty('photoUrl')
               expect(res.body.photoUrl).toEqual(body.photoUrl)
               expect(res.body).toHaveProperty('birthDate')
-              expect(res.body.birthDate).toEqual(body.birthDate)
+              expect(res.body.birthDate).toEqual(body.birthDate.toISOString())
               expect(res.body).toHaveProperty('gender')
               expect(res.body.gender).toEqual(body.gender)
               expect(res.body).toHaveProperty('city')
