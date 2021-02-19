@@ -21,13 +21,62 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Client.init({
-    fullName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    photoUrl: DataTypes.STRING,
-    birthDate: DataTypes.DATE,
-    gender: DataTypes.STRING,
-    city: DataTypes.STRING
+    fullName: {
+      type:DataTypes.STRING,
+      validate: {
+        notEmpty:{
+          msg: 'fullName is required'
+        }
+      }
+    },
+    email: {
+      type:DataTypes.STRING,
+      validate: {
+        notEmpty:{
+          msg: 'email is required'
+        }
+      }
+    },
+    password: {
+      type:DataTypes.STRING,
+      validate: {
+        notEmpty:{
+          msg: 'password is required'
+        }
+      }
+    },
+    photoUrl: {
+      type:DataTypes.STRING,
+      validate: {
+        notEmpty:{
+          msg: 'photoUrl is required'
+        }
+      }
+    },
+    birthDate: {
+      type:DataTypes.DATE,
+      validate: {
+        notEmpty:{
+          msg: 'birthDate is required'
+        }
+      }
+    },
+    gender: {
+      type:DataTypes.STRING,
+      validate: {
+        notEmpty:{
+          msg: 'gender is required'
+        }
+      }
+    },
+    city: {
+      type:DataTypes.STRING,
+      validate: {
+        notEmpty:{
+          msg: 'city is required'
+        }
+      }
+    }
   }, {
     hooks: {
       beforeCreate(client){
