@@ -7,7 +7,10 @@ const router  = require('express').Router()
 
 router.post('/register', ClientController.register)
 router.post('/login', ClientController.login)
-router.use(authenticationClient)
+// router.use(authenticationClient)
+
+router.put('/:id', ClientController.update)
+router.get('/:id/history', ClientController.findHistory)
 
 
 

@@ -2,7 +2,7 @@ const app = require('../app')
 const request = require('supertest')
 const { clearTherapists, registerTherapist } = require('./helpers/helpers_therapist')
 
-describe('POST /register/therapist', function() {
+describe('POST /therapist/register', function() {
   afterAll(function(done) {
       clearTherapists()
       .then(data => {
@@ -30,7 +30,7 @@ describe('POST /register/therapist', function() {
       }
       //execute
       request(app)
-          .post('/register/therapist')
+          .post('/therapist/register')
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -85,7 +85,7 @@ describe('POST /register/therapist', function() {
       }
       //execute
       request(app)
-          .post('/register/therapist')
+          .post('/therapist/register')
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -121,7 +121,7 @@ describe('POST /register/therapist', function() {
       }
       //execute
       request(app)
-          .post('/register/therapist')
+          .post('/therapist/register')
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -157,7 +157,7 @@ describe('POST /register/therapist', function() {
       }
       //execute
       request(app)
-          .post('/register/therapist')
+          .post('/therapist/register')
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -193,7 +193,7 @@ describe('POST /register/therapist', function() {
     }
     //execute
     request(app)
-        .post('/register/therapist')
+        .post('/therapist/register')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -229,7 +229,7 @@ describe('POST /register/therapist', function() {
     }
     //execute
     request(app)
-        .post('/register/therapist')
+        .post('/therapist/register')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -265,7 +265,7 @@ describe('POST /register/therapist', function() {
     }
     //execute
     request(app)
-        .post('/register/therapist')
+        .post('/therapist/register')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -301,7 +301,7 @@ describe('POST /register/therapist', function() {
     }
     //execute
     request(app)
-        .post('/register/therapist')
+        .post('/therapist/register')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -337,7 +337,7 @@ describe('POST /register/therapist', function() {
     }
     //execute
     request(app)
-        .post('/register/therapist')
+        .post('/therapist/register')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -373,7 +373,7 @@ describe('POST /register/therapist', function() {
     }
     //execute
     request(app)
-        .post('/register/therapist')
+        .post('/therapist/register')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -409,7 +409,7 @@ describe('POST /register/therapist', function() {
     }
     //execute
     request(app)
-        .post('/register/therapist')
+        .post('/therapist/register')
         .send(body)
         .end((err, res) => {
             if (err) done(err)
@@ -445,7 +445,7 @@ describe('POST /register/therapist', function() {
     }
     //execute
     request(app)
-        .post('/register/therapist')
+        .post('/therapist/register')
         .send(body)
         .end((err, res) => {
             if (err) done(err)

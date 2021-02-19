@@ -1,4 +1,4 @@
-const { Client } = require('../models/index')
+const { Client, Therapist } = require('../models/index')
 const { comparePass } = require('../helpers/bcrypt')
 const { loginToken } = require('../helpers/jwt')
 
@@ -69,6 +69,48 @@ class ClientController {
         // console.log(err)
         next(err)
     }
+  }
+
+  static update(req, res, next) {
+    const id = +req.params.id
+    const { fullName, photoUrl, birthDate, gender, city } = req.body
+    const obj = {
+      fullName,
+      photoUrl,
+      birthDate,
+      gender,
+      city
+    }
+
+    Client.update(obj, {
+      where: {
+        id
+      }
+    })
+      .then(data => {
+        return Client.findByPk(id)
+      })
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+
+  static findHistory(req, res, next) {
+    const id = +req.params.id
+    Client.findByPk(id, {
+      include: {
+       model: Therapist
+      }
+    })
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .catch(err => {
+        next(err)
+      })
   }
 }
 
