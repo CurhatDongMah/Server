@@ -1,7 +1,7 @@
 function errorHandler(err, req, res, next) {
     if (err) {
         // console.log('ini dari handler')
-        // console.log(err)
+        console.log(err)
         // console.log('ini akhir dari hanlder')
             switch (err.name) {
                 case 'SequelizeValidationError':
@@ -22,7 +22,7 @@ function errorHandler(err, req, res, next) {
                     res.status(401).json({message: 'Unauthorized'})
                     break
                 case 'Invalid Email / Password': 
-                    res.status(401).json({message: 'Invalid Email / Password'})
+                    res.status(400).json({message: 'Invalid Email / Password'})
                     break
                 default: 
                     res.status(500).json({message: 'Internal Server Error'})

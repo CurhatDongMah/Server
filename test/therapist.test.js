@@ -2,7 +2,7 @@ const app = require('../app')
 const request = require('supertest')
 const { clearTherapists, registerTherapist } = require('./helpers/helpers_therapist')
 
-describe('POST/register/therapist', function() {
+describe('POST /register/therapist', function() {
   afterAll(function(done) {
       clearTherapists()
       .then(data => {
@@ -24,7 +24,7 @@ describe('POST/register/therapist', function() {
           city: 'jakarta',
           licenseUrl: 'asad',
           price: 5000,
-          status: true,
+          status: false,
           about: 'asdasd',
           rating: 0
       }
@@ -47,7 +47,7 @@ describe('POST/register/therapist', function() {
               expect(res.body).toHaveProperty('photoUrl')
               expect(res.body.photoUrl).toEqual(body.photoUrl)
               expect(res.body).toHaveProperty('birthDate')
-              expect(res.body.birthDate).toEqual(body.birthDate)
+              expect(res.body.birthDate).toEqual(`${body.birthDate.toISOString()}`)
               expect(res.body).toHaveProperty('gender')
               expect(res.body.gender).toEqual(body.gender)
               expect(res.body).toHaveProperty('city')
@@ -79,7 +79,7 @@ describe('POST/register/therapist', function() {
           city: 'jakarta',
           licenseUrl: 'asad',
           price: 5000,
-          status: true,
+          status: false,
           about: 'asdasd',
           rating: 0
       }
@@ -115,7 +115,7 @@ describe('POST/register/therapist', function() {
           city: 'jakarta',
           licenseUrl: 'asad',
           price: 5000,
-          status: true,
+          status: false,
           about: 'asdasd',
           rating: 0
       }
@@ -151,7 +151,7 @@ describe('POST/register/therapist', function() {
           city: 'jakarta',
           licenseUrl: 'asad',
           price: 5000,
-          status: true,
+          status: false,
           about: 'asdasd',
           rating: 0
       }
@@ -187,7 +187,7 @@ describe('POST/register/therapist', function() {
         city: 'jakarta',
         licenseUrl: 'asad',
         price: 5000,
-        status: true,
+        status: false,
         about: 'asdasd',
         rating: 0
     }
@@ -223,7 +223,7 @@ describe('POST/register/therapist', function() {
         city: 'jakarta',
         licenseUrl: 'asad',
         price: 5000,
-        status: true,
+        status: false,
         about: 'asdasd',
         rating: 0
     }
@@ -259,7 +259,7 @@ describe('POST/register/therapist', function() {
         city: 'jakarta',
         licenseUrl: 'asad',
         price: 5000,
-        status: true,
+        status: false,
         about: 'asdasd',
         rating: 0
     }
@@ -295,7 +295,7 @@ describe('POST/register/therapist', function() {
         city: '',
         licenseUrl: 'asad',
         price: 5000,
-        status: true,
+        status: false,
         about: 'asdasd',
         rating: 2.3
     }
@@ -331,7 +331,7 @@ describe('POST/register/therapist', function() {
         city: 'eins',
         licenseUrl: '',
         price: 5000,
-        status: true,
+        status: false,
         about: 'asdasd',
         rating: 2.3
     }
@@ -367,7 +367,7 @@ describe('POST/register/therapist', function() {
         city: 'eins',
         licenseUrl: 'adasd',
         price: -1,
-        status: true,
+        status: false,
         about: 'asdasd',
         rating: 0
     }
@@ -403,7 +403,7 @@ describe('POST/register/therapist', function() {
         city: 'eins',
         licenseUrl: 'adasd',
         price: "asd",
-        status: true,
+        status: false,
         about: 'asdasd',
         rating: 0
     }
@@ -439,7 +439,7 @@ describe('POST/register/therapist', function() {
         city: 'eins',
         licenseUrl: 'adasd',
         price: 123333,
-        status: true,
+        status: false,
         about: '',
         rating: 0
     }
@@ -464,3 +464,82 @@ describe('POST/register/therapist', function() {
 
   })
 })
+
+describe('POST /login/therapist', function() {
+    beforeAll((done) => {
+      registerTherapist()
+        .then(data => {
+          done()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    })
+  
+    afterAll(function(done) {
+      clearTherapists()
+      .then(data => {
+          done()
+      })
+      .catch(err => {
+          console.log(err)
+      })
+    })
+    it('should send response with 200 status code', function (done){
+      let userObj = {
+        email: 'tes@mail.com',
+        password: 'tes123'
+      }
+      // Execute
+      request(app)
+        .post('/login/therapist')
+        .send(userObj)
+        .end((err, res) => {
+            if (err) done(err)
+            // Assert
+            expect(res.statusCode).toEqual(200)
+            expect(res.body).toHaveProperty('access_token')
+            expect(typeof res.body.access_token).toEqual('string')
+  
+            done()
+        })
+    })
+    it('should send response with 400 "Invalid Email/Password"', (done) => {
+      //Setup 
+      let userObj = {
+          email: 'tes@mail.com',
+          password: 'password salah'
+      }
+      // Execute
+      request(app)
+        .post('/login/therapist')
+        .send(userObj)
+        .end((err, res) => {
+            if(err) done(err)
+            // Assert 
+            expect(res.statusCode).toEqual(400)
+            expect(res.body).toHaveProperty('message', 'Invalid Email / Password')
+  
+            done()
+        })
+    })
+    it('should send response with 400 "Invalid Email/Password"', (done) => {
+      //Setup 
+      let userObj = {
+          email: 'bukanpengguna@mail.com',
+          password: 'password salah'
+      }
+      // Execute
+      request(app)
+        .post('/login/therapist')
+        .send(userObj)
+        .end((err, res) => {
+            if(err) done(err)
+            // Assert 
+            expect(res.statusCode).toEqual(400)
+            expect(res.body).toHaveProperty('message', 'Invalid Email / Password')
+  
+            done()
+        })
+    })
+  })

@@ -88,8 +88,8 @@ module.exports = (sequelize, DataTypes) => {
     price: {
       type:DataTypes.INTEGER,
       validate: {
-        min:{
-          args: 0,
+        min: {
+          args: [0],
           msg:"Minimum price is 0"
         },
         isNumeric: {
@@ -111,6 +111,8 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate(therapist){
         therapist.password = hashPass(therapist.password)
+        therapist.status = false
+        therapist.rating = 0
       }
     },
     sequelize,
