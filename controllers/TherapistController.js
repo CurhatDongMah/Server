@@ -20,8 +20,11 @@ class TherapistController {
       .then(data => {
         res.status(201).json(data)
       })
-      .catch(next)
+      .catch(err => {
+        res.status(500).json(err.message)
+      }) 
   }
+  
 
   static login (req, res, next) {
     let { email, password } = req.body
@@ -55,8 +58,11 @@ class TherapistController {
       .then(data => {
         res.status(200).json(data)
       })
-      .catch(next)
+      .catch(err => {
+        console.log(err.message);
+      })
   }
+
 }
 
 module.exports = TherapistController
