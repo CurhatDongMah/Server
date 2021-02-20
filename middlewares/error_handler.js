@@ -35,6 +35,8 @@ function errorHandler(err, req, res, next) {
                 case 'JsonWebTokenError':
                     res.status(401).json({ message: 'You need to login first'})
                     break;
+                case 'Authentication Failed':
+                    res.status(401).json({ message: 'You need to login first'})
                 default: 
                     res.status(500).json({message: 'Internal Server Error'})
                     break

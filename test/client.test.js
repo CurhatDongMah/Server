@@ -587,5 +587,58 @@ describe('PUT/client/:id', function() {
           })
   
     })
+    it('should send response with 401 status code', function(done) {
+        //setup
+        const body = {
+            fullName: '',
+            email: 'tes@mail.com',
+            birthDate: new Date('2001-04-01'),
+            gender: 'male',
+            city: 'jakarta'
+        }
+        //execute
+        request(app)
+            .put(`/client/${dummyId}`)
+            .send(body)
+            .end((err, res) => {
+                if (err) done(err)
+  
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('You need to login first')
+  
+                done()
+            })
+  
+    })
+    it('should send response with 401 status code', function(done) {
+        //setup
+        const body = {
+            fullName: '',
+            email: 'tes@mail.com',
+            birthDate: new Date('2001-04-01'),
+            gender: 'male',
+            city: 'jakarta'
+        }
+        //execute
+        request(app)
+            .put(`/client/${dummyId}`)
+            .set('access_token', 'token ngasal')
+            .send(body)
+            .end((err, res) => {
+                if (err) done(err)
+  
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('You need to login first')
+  
+                done()
+            })
+  
+    })
   
   })

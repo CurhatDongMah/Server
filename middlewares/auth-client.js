@@ -5,7 +5,7 @@ async function authenticationClient(req, res, next) {
     try {
         const access_token = req.headers.access_token
         if(!access_token){
-            throw { name: 'Authentication Failed', msg: 'Please log in first', status: 401 }
+            throw { name: 'Authentication Failed' }
         }else{
             const decoded = verifyToken(access_token)
             const client = await Client.findOne({
@@ -14,7 +14,7 @@ async function authenticationClient(req, res, next) {
                 }
             })
             if (!client){
-                throw { name: 'Authentication Failed', msg:'Wrong Email/Password', status: 401 }
+                throw { name: 'Invalid Email / Password' }
             }else{
                 req.loggedInClient = decoded
                 console.log('berhasil');
