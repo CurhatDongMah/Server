@@ -18,7 +18,8 @@ class TherapistController {
     }
     Therapist.create(input)
       .then(data => {
-        res.status(201).json(data)
+        const { id, fullName, email, photoUrl, birthDate, gender, city, licenseUrl, price, about, status, rating } = data
+        res.status(201).json({ id, fullName, email, photoUrl, birthDate, gender, city, licenseUrl, price, about, status, rating })
       })
       .catch(err => {
         next(err)
@@ -54,7 +55,7 @@ class TherapistController {
       })
   }
 
-  static getAll(req, res) {
+  static getAll(req, res, next) {
     Therapist.findAll({
       where: { status: true }
     })
@@ -64,6 +65,31 @@ class TherapistController {
       .catch(err => {
         next(err)
       })
+  }
+
+  static updateTherapist (req, res, next) {
+    let id = +req.params.id
+    let input = {
+      fullName: req.body.fullName,
+      email: req.body.email,
+      password: req.body.password,
+      photoUrl: req.body.photoUrl,
+      birthDate: req.body.birthDate,
+      gender: req.body.gender,
+      city: req.body.city,
+      licenseUrl: req.body.licenseUrl,
+      price: +req.body.price,
+      about: req.body.about,
+      rating: +req.body.rating,
+      status: req.body.status
+    }
+    Therapist.update(input, {
+      where: { id }
+    })
+      .then(() => {
+        res.status(200).json({ message: 'Successfully updated therapist data' })
+      })
+      .catch(next)
   }
 
 }

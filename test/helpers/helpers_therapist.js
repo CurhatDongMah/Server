@@ -19,9 +19,7 @@ function registerTherapist () {
             city: 'jakarta',
             licenseUrl: 'asad',
             price: 5000,
-            status: true,
-            about: 'asdasd',
-            rating: 0
+            about: 'asdasd'
         }
         return Therapist.create(obj)
     }
