@@ -92,6 +92,19 @@ class TherapistController {
       .catch(next)
   }
 
+  static async delete(req,res,next){
+    try {
+      const data = await Therapist.destroy({
+        where : {
+          id : req.params.id
+        }
+      })
+      res.status(200).json({msg : "Data has been deleted successfully"})
+    } catch (err) {
+      next(err)
+    }
+  }
+
 }
 
 module.exports = TherapistController

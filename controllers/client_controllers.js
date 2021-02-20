@@ -107,6 +107,19 @@ class ClientController {
         next(err)
       })
   }
+
+  static async delete(req,res,next){
+    try {
+      const data = await Client.destroy({
+        where : {
+          id : req.params.id
+        }
+      })
+      res.status(200).json({msg : "Data has been deleted successfully"})
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 
 module.exports = { ClientController }
