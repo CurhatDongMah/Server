@@ -137,6 +137,37 @@ describe('POST /therapist/register', function () {
       })
 
   })
+  it('should send response with 400 status code', function(done) {
+    //setup
+    const body = {
+        fullName: 'admin',
+        email: 'salahformatemail',
+        password: 'tes123',
+        photoUrl: 'tyusdgtfu',
+        birthDate: new Date('2001-04-01'),
+        gender: 'male',
+        city: 'jakarta'
+    }
+    //execute
+    request(app)
+        .post('/client/register')
+        .send(body)
+        .end((err, res) => {
+            if (err) done(err)
+
+            //assert
+            expect(res.statusCode).toEqual(400)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(Array.isArray(res.body.message)).toEqual(true)
+            expect(res.body.message).toEqual(
+                expect.arrayContaining(['must be an email format'])
+            )
+
+            done()
+        })
+
+})
   it('should send response with 400 status code', function (done) {
     //setup
     const body = {
