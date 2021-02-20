@@ -140,13 +140,18 @@ describe('POST /therapist/register', function () {
   it('should send response with 400 status code', function(done) {
     //setup
     const body = {
-        fullName: 'admin',
-        email: 'salahformatemail',
-        password: 'tes123',
-        photoUrl: 'tyusdgtfu',
-        birthDate: new Date('2001-04-01'),
-        gender: 'male',
-        city: 'jakarta'
+      fullName: 'admin',
+      email: 'salahformatemail',
+      password: 'tes123',
+      photoUrl: 'tyusdgtfu',
+      birthDate: new Date(),
+      gender: 'male',
+      city: 'jakarta',
+      licenseUrl: 'asad',
+      price: 5000,
+      status: false,
+      about: 'asdasd',
+      rating: 0
     }
     //execute
     request(app)
