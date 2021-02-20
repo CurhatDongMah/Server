@@ -99,7 +99,7 @@ class TherapistController {
           id : req.params.id
         }
       })
-      res.status(200).json({msg : "Data has been deleted successfully"})
+      res.status(200).json({ message: "Data has been deleted successfully"})
     } catch (err) {
       next(err)
     }
