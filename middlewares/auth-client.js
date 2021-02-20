@@ -26,4 +26,20 @@ async function authenticationClient(req, res, next) {
     }
 }
 
-module.exports = authenticationClient
+function authorizeClient (req, res, next) {
+    Client.findOne({
+        where: { id: +req.params.id }
+    })
+        .then(data => {
+            if (data.id !== req.loggedInClient.id) {
+                next({ name: 'Unauthorized' })
+            } else {
+                next()
+            }
+        })
+        .catch(err => {
+            next(err)
+        })
+}
+
+module.exports = { authenticationClient, authorizeClient }

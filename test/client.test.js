@@ -1,7 +1,10 @@
 const app = require('../app')
 const request = require('supertest')
 const { clearClients, registerClient } = require('./helpers/helpers_client')
+const { loginToken } = require('../helpers/jwt')
+
 let dummyId = 1
+let access_token = ''
 
 describe('POST/client/register', function() {
   afterAll(function(done) {
@@ -369,8 +372,13 @@ describe('PUT/client/:id', function() {
     beforeAll(function(done) {
         registerClient()
         .then(data => {
+            let payload = {
+                id: data.id,
+                email: data.email
+            }
+            access_token = loginToken(payload)
             dummyId = data.id
-            console.log(dummyId, 'ini dummy iddddd')
+            // console.log(dummyId, 'ini dummy iddddd')
             done()
         })
         .catch(err => {
@@ -398,6 +406,7 @@ describe('PUT/client/:id', function() {
         //execute
         request(app)
             .put(`/client/${dummyId}`)
+            .set('access_token', access_token)
             .send(body)
             .end((err, res) => {
                 if (err) done(err)
@@ -434,6 +443,7 @@ describe('PUT/client/:id', function() {
         //execute
         request(app)
             .put(`/client/${dummyId}`)
+            .set('access_token', access_token)
             .send(body)
             .end((err, res) => {
                 if (err) done(err)
@@ -465,6 +475,7 @@ describe('PUT/client/:id', function() {
       //execute
       request(app)
           .put(`/client/${dummyId}`)
+          .set('access_token', access_token)
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -494,6 +505,7 @@ describe('PUT/client/:id', function() {
       //execute
       request(app)
           .put(`/client/${dummyId}`)
+          .set('access_token', access_token)
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -525,6 +537,7 @@ describe('PUT/client/:id', function() {
       //execute
       request(app)
           .put(`/client/${dummyId}`)
+          .set('access_token', access_token)
           .send(body)
           .end((err, res) => {
               if (err) done(err)
@@ -556,6 +569,7 @@ describe('PUT/client/:id', function() {
       //execute
       request(app)
           .put(`/client/${dummyId}`)
+          .set('access_token', access_token)
           .send(body)
           .end((err, res) => {
               if (err) done(err)
