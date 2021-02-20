@@ -643,7 +643,7 @@ describe('PUT/client/:id', function() {
   
 })
 
-describe('GET/client/:id', function() {
+describe('GET/client/:id/history', function() {
     beforeAll(function(done) {
         registerClient()
         .then(data => {
