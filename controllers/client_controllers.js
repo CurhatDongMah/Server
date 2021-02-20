@@ -26,7 +26,14 @@ class ClientController {
     }
     Client.create(obj)
     .then(data => {
-        res.status(201).json(data)
+        res.status(201).json({
+          fullName: data.fullName,
+          email: data.email,
+          photoUrl: data.photoUrl,
+          birthDate: data.birthDate,
+          gender: data.gender,
+          city: data.city
+        })
     })
     .catch(err => {
         console.log(err)
