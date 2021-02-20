@@ -27,6 +27,7 @@ class ClientController {
     Client.create(obj)
     .then(data => {
         res.status(201).json({
+          id: data.id,
           fullName: data.fullName,
           email: data.email,
           photoUrl: data.photoUrl,

@@ -3,12 +3,11 @@ const request = require('supertest')
 const { clearTherapists, registerTherapist } = require('./helpers/helpers_therapist')
 const { Therapist } = require('../models')
 const { loginToken } = require('../helpers/jwt')
-const { clearClients, registerClient } = require('./helpers/helpers_client') 
 
 let access_token_therapist1
 let access_token_therapist2
 let id_therapist1
-let access_token_client
+let access_token
 
 let therapist1 = {
   fullName: 'hoho',
@@ -844,7 +843,7 @@ describe('PUT /therapist/:id', () => {
   })
 })
 
-describe('DELETE/therapist/:id', function() {
+describe('DELETE /therapist/:id', function() {
   beforeAll(function(done) {
       registerTherapist()
       .then(data => {
@@ -852,9 +851,8 @@ describe('DELETE/therapist/:id', function() {
               id: data.id,
               email: data.email
           }
-          access_token = loginToken(payload)
-          dummyId = data.id
-          // console.log(dummyId, 'ini dummy iddddd')
+          access_token_therapist1 = loginToken(payload)
+          id_therapist1 = data.id
           done()
       })
       .catch(err => {
@@ -875,8 +873,8 @@ describe('DELETE/therapist/:id', function() {
       // Setup
       // Execute
       request(app)
-        .delete(`/therapist/${dummyId}`)
-        .set('access_token', access_token)
+        .delete(`/therapist/${id_therapist1}`)
+        .set('access_token', access_token_therapist1)
         .end(function(err, res) {
           if(err) done(err)
 
@@ -896,8 +894,7 @@ describe('DELETE/therapist/:id', function() {
       // Setup
       // Execute
       request(app)
-        .delete(`/therapist/${dummyId}`)
-        .set('access_token', 'token ngasal')
+        .delete(`/therapist/${id_therapist1}`)
         .end(function(err, res) {
           if(err) done(err)
 
@@ -912,4 +909,59 @@ describe('DELETE/therapist/:id', function() {
         })
 
     })
+})
+
+describe('PATCH /therapist/status', function () {
+  beforeAll((done) => {
+    registerTherapist()
+      .then(data => {
+        let payload = {
+          id: data.id,
+          email: data.email
+        }
+        access_token = loginToken(payload)
+        done()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
+  
+  afterAll(function (done) {
+    clearTherapists()
+      .then(data => {
+        done()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
+  it('should send response with 401 status code', (done) => {
+    request(app)
+      .patch(`/therapist/status`)
+      .send({ status: true })
+      .end((err, res) => {
+        if (err) done(err)
+
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('message', 'You need to login first')
+        done()
+      })
+  })
+
+  it('should send response with 200 status code', (done) => {
+    request(app)
+      .patch(`/therapist/status`)
+      .send({ status: true })
+      .set('access_token', access_token)
+      .end((err, res) => {
+        if (err) done(err)
+
+        expect(res.statusCode).toEqual(200)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('message', 'Successfully updated')
+        done()
+      })
+  })
 })

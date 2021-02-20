@@ -38,13 +38,14 @@ class TherapistController {
               next({ name: 'Invalid Email / Password' })
           } else {
               if (comparePass(password, data.password)) {
+                  const { id, fullName, email, photoUrl, birthDate, gender, city, licenseUrl, price, about, status, rating } = data
                   //jwt
                   let payload = {
                       id: data.id,
                       email: data.email
                   }
                   let access_token = loginToken(payload)
-                  res.status(200).json({ access_token, email })
+                  res.status(200).json({ access_token, data: { id, fullName, email, photoUrl, birthDate, gender, city, licenseUrl, price, about, status, rating } })
               } else {
                   next({ name: 'Invalid Email / Password' })
               }
@@ -57,7 +58,8 @@ class TherapistController {
 
   static getAll(req, res, next) {
     Therapist.findAll({
-      where: { status: true }
+      where: { status: true },
+      attributes: { exclude: ['password'] }
     })
       .then(data => {
         res.status(200).json(data)
@@ -103,6 +105,16 @@ class TherapistController {
     } catch (err) {
       next(err)
     }
+  }
+
+  static updateStatus(req, res, next) {
+    let status = req.body.status
+    let id = req.loggedInTherapist.id
+    Therapist.update({ status }, { where: { id }})
+      .then(() => {
+        res.status(200).json({ message: "Successfully updated"})
+      })
+      .catch(next)
   }
 
 }
