@@ -644,6 +644,7 @@ describe('PUT/client/:id', function() {
 })
 
 describe('DELETE/client/:id', function() {
+
     beforeAll(function(done) {
         registerClient()
         .then(data => {
@@ -669,6 +670,7 @@ describe('DELETE/client/:id', function() {
             console.log(err)
         })
     })
+
 
     it('should return response 200 with success message', function(done) {
         // Setup
@@ -712,3 +714,4 @@ describe('DELETE/client/:id', function() {
   
       })
 })
+
