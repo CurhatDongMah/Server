@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1613825133149" clover="3.2.0">
-  <project timestamp="1613825133149" name="All files">
-    <metrics statements="259" coveredstatements="233" conditionals="58" coveredconditionals="40" methods="60" coveredmethods="49" elements="377" coveredelements="322" complexity="0" loc="259" ncloc="259" packages="8" files="19" classes="19"/>
+<coverage generated="1613828997126" clover="3.2.0">
+  <project timestamp="1613828997126" name="All files">
+    <metrics statements="283" coveredstatements="242" conditionals="58" coveredconditionals="40" methods="66" coveredmethods="49" elements="407" coveredelements="331" complexity="0" loc="283" ncloc="283" packages="8" files="21" classes="21"/>
     <package name="Server">
       <metrics statements="16" coveredstatements="14" conditionals="6" coveredconditionals="4" methods="1" coveredmethods="0"/>
       <file name="app.js" path="/home/kanz/Documents/Server/app.js">
@@ -38,7 +38,7 @@
       </file>
     </package>
     <package name="Server.controllers">
-      <metrics statements="71" coveredstatements="60" conditionals="8" coveredconditionals="8" methods="27" coveredmethods="19"/>
+      <metrics statements="88" coveredstatements="62" conditionals="8" coveredconditionals="8" methods="33" coveredmethods="19"/>
       <file name="TherapistController.js" path="/home/kanz/Documents/Server/controllers/TherapistController.js">
         <metrics statements="31" coveredstatements="26" conditionals="4" coveredconditionals="4" methods="12" coveredmethods="8"/>
         <line num="1" count="2" type="stmt"/>
@@ -116,6 +116,26 @@
         <line num="119" count="0" type="stmt"/>
         <line num="124" count="2" type="stmt"/>
       </file>
+      <file name="review_controllers.js" path="/home/kanz/Documents/Server/controllers/review_controllers.js">
+        <metrics statements="17" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="56" count="2" type="stmt"/>
+      </file>
     </package>
     <package name="Server.helpers">
       <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
@@ -140,7 +160,7 @@
       </file>
     </package>
     <package name="Server.middlewares">
-      <metrics statements="60" coveredstatements="48" conditionals="21" coveredconditionals="14" methods="11" coveredmethods="9"/>
+      <metrics statements="61" coveredstatements="49" conditionals="21" coveredconditionals="14" methods="11" coveredmethods="9"/>
       <file name="auth-client.js" path="/home/kanz/Documents/Server/middlewares/auth-client.js">
         <metrics statements="20" coveredstatements="18" conditionals="6" coveredconditionals="4" methods="4" coveredmethods="4"/>
         <line num="1" count="2" type="stmt"/>
@@ -184,8 +204,9 @@
         <line num="41" count="2" type="stmt"/>
       </file>
       <file name="error_handler.js" path="/home/kanz/Documents/Server/middlewares/error_handler.js">
-        <metrics statements="24" coveredstatements="16" conditionals="11" coveredconditionals="7" methods="3" coveredmethods="2"/>
+        <metrics statements="25" coveredstatements="17" conditionals="11" coveredconditionals="7" methods="3" coveredmethods="2"/>
         <line num="2" count="38" type="cond" truecount="1" falsecount="1"/>
+        <line num="4" count="38" type="stmt"/>
         <line num="6" count="38" type="cond" truecount="6" falsecount="3"/>
         <line num="9" count="26" type="stmt"/>
         <line num="11" count="32" type="stmt"/>
@@ -280,7 +301,7 @@
       </file>
     </package>
     <package name="Server.routes">
-      <metrics statements="26" coveredstatements="26" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="32" coveredstatements="32" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="client.js" path="/home/kanz/Documents/Server/routes/client.js">
         <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
@@ -296,13 +317,22 @@
         <line num="17" count="2" type="stmt"/>
       </file>
       <file name="index.js" path="/home/kanz/Documents/Server/routes/index.js">
-        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
         <line num="7" count="2" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+      </file>
+      <file name="review.js" path="/home/kanz/Documents/Server/routes/review.js">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
       </file>
       <file name="therapist.js" path="/home/kanz/Documents/Server/routes/therapist.js">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>

@@ -48,6 +48,7 @@ class ClientController {
             // console.log('ga ada email')
             next({name: 'Invalid Email / Password'})
         } else {
+            const { fullName, email, photoUrl, birthDate, gender, city } = client
             const isValidPass = comparePass(password, client.password)
             if (isValidPass) {
                 const payload = {
@@ -55,7 +56,17 @@ class ClientController {
                     email: client.email
                 }
                 const access_token = loginToken(payload)
-                return res.status(200).json({ access_token, email })
+                return res.status(200).json({ 
+                  access_token,
+                  data: {
+                    fullName,
+                    email,
+                    photoUrl,
+                    birthDate,
+                    gender,
+                    city
+                  } 
+                })
             } else {
                 next({name: 'Invalid Email / Password'})
             }
