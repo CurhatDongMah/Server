@@ -9,5 +9,6 @@ router.post('/login', TherapistController.login)
 
 router.use(authenticationTherapist)
 router.put('/:id', authorizeTherapist, TherapistController.updateTherapist)
+router.delete('/:id', authorizeTherapist, TherapistController.delete)
 
 module.exports = router
