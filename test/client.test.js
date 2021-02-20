@@ -643,7 +643,8 @@ describe('PUT/client/:id', function() {
   
 })
 
-describe('GET/client/:id', function() {
+describe('DELETE/client/:id', function() {
+
     beforeAll(function(done) {
         registerClient()
         .then(data => {
@@ -669,62 +670,48 @@ describe('GET/client/:id', function() {
             console.log(err)
         })
     })
-    it('should send response with 200 status code', function(done) {
-        //setup
-        //execute
-        request(app)
-            .get(`/client/${dummyId}/history`)
-            .set('access_token', access_token)
-            .end((err, res) => {
-                if (err) done(err)
-  
-                //assert
-                expect(res.statusCode).toEqual(200)
-                expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('Therapists')
-  
-                done()
-            })
-  
-    })
-    it('should send response with 401 status code', function(done) {
-        //setup
 
-        //execute
-        request(app)
-            .get(`/client/${dummyId}/history`)
-            .set('access_token', 'token ngasal')
-            .end((err, res) => {
-                if (err) done(err)
-  
-                //assert
-                expect(res.statusCode).toEqual(401)
-                expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('message')
-                expect(res.body.message).toEqual('You need to login first')
-  
-                done()
-            })
-  
-    })
-    it('should send response with 500 status code', function(done) {
-        //setup
 
-        //execute
+    it('should return response 200 with success message', function(done) {
+        // Setup
+        // Execute
         request(app)
-            .get(`/client/${dummyId + 10}/history`)
-            .set('access_token', access_token)
-            .end((err, res) => {
-                if (err) done(err)
+          .delete(`/client/${dummyId}`)
+          .set('access_token', access_token)
+          .end(function(err, res) {
+            if(err) done(err)
   
-                //assert
-                expect(res.statusCode).toEqual(500)
-                expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('message')
-                expect(res.body.message).toEqual('Internal Server Error')
+            // Assert
+            expect(res.statusCode).toEqual(200)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(typeof res.body.message).toEqual('string')
+            expect(res.body.message).toEqual('Data has been deleted successfully')
   
-                done()
-            })
+            done()
+          })
   
-    })
+      })
+
+      it('should send response with 401 status code', function(done) {
+        // Setup
+        // Execute
+        request(app)
+          .delete(`/client/${dummyId}`)
+          .set('access_token', 'token ngasal')
+          .end(function(err, res) {
+            if(err) done(err)
+  
+            // Assert
+            expect(res.statusCode).toEqual(401)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(typeof res.body.message).toEqual('string')
+            expect(res.body.message).toEqual('You need to login first')
+  
+            done()
+          })
+  
+      })
 })
+
