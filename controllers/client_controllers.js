@@ -55,7 +55,7 @@ class ClientController {
                     email: client.email
                 }
                 const access_token = loginToken(payload)
-                return res.status(200).json({ access_token })
+                return res.status(200).json({ access_token, email })
             } else {
                 next({name: 'Invalid Email / Password'})
             }

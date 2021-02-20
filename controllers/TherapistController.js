@@ -44,7 +44,7 @@ class TherapistController {
                       email: data.email
                   }
                   let access_token = loginToken(payload)
-                  res.status(200).json({ access_token })
+                  res.status(200).json({ access_token, email })
               } else {
                   next({ name: 'Invalid Email / Password' })
               }
