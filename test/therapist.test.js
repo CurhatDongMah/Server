@@ -807,3 +807,73 @@ describe('PUT /therapist/:id', () => {
       })
   })
 })
+
+describe('DELETE/therapist/:id', function() {
+  beforeAll(function(done) {
+      registerTherapist()
+      .then(data => {
+          let payload = {
+              id: data.id,
+              email: data.email
+          }
+          access_token = loginToken(payload)
+          dummyId = data.id
+          // console.log(dummyId, 'ini dummy iddddd')
+          done()
+      })
+      .catch(err => {
+          console.log(err)
+      })
+  })
+  afterAll(function(done) {
+      clearTherapists()
+      .then(data => {
+          done()
+      })
+      .catch(err => {
+          console.log(err)
+      })
+  })
+
+  it('should return response 200 with success message', function(done) {
+      // Setup
+      // Execute
+      request(app)
+        .delete(`/therapist/${dummyId}`)
+        .set('access_token', access_token)
+        .end(function(err, res) {
+          if(err) done(err)
+
+          // Assert
+          expect(res.statusCode).toEqual(200)
+          expect(typeof res.body).toEqual('object')
+          expect(res.body).toHaveProperty('message')
+          expect(typeof res.body.message).toEqual('string')
+          expect(res.body.message).toEqual('Data has been deleted successfully')
+
+          done()
+        })
+
+    })
+
+    it('should send response with 401 status code', function(done) {
+      // Setup
+      // Execute
+      request(app)
+        .delete(`/therapist/${dummyId}`)
+        .set('access_token', 'token ngasal')
+        .end(function(err, res) {
+          if(err) done(err)
+
+          // Assert
+          expect(res.statusCode).toEqual(401)
+          expect(typeof res.body).toEqual('object')
+          expect(res.body).toHaveProperty('message')
+          expect(typeof res.body.message).toEqual('string')
+          expect(res.body.message).toEqual('You need to login first')
+
+          done()
+        })
+
+    })
+})
