@@ -32,6 +32,9 @@ function errorHandler(err, req, res, next) {
                 case 'Invalid Email / Password': 
                     res.status(400).json({message: 'Invalid Email / Password'})
                     break
+                case 'JsonWebTokenError':
+                    res.status(401).json({ message: 'You need to login first'})
+                    break;
                 default: 
                     res.status(500).json({message: 'Internal Server Error'})
                     break
