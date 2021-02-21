@@ -680,7 +680,7 @@ describe('PUT/client/:id', function() {
   
 })
 
-describe('GET/client/:id/history', function() {
+describe('GET/client/history', function() {
     beforeAll(function(done) {
         registerClient()
         .then(data => {
@@ -710,7 +710,7 @@ describe('GET/client/:id/history', function() {
         //setup
         //execute
         request(app)
-            .get(`/client/${dummyId}/history`)
+            .get(`/client/history`)
             .set('access_token', access_token)
             .end((err, res) => {
                 if (err) done(err)
@@ -728,7 +728,7 @@ describe('GET/client/:id/history', function() {
 
         //execute
         request(app)
-            .get(`/client/${dummyId}/history`)
+            .get(`/client/history`)
             .set('access_token', 'token ngasal')
             .end((err, res) => {
                 if (err) done(err)
@@ -738,26 +738,6 @@ describe('GET/client/:id/history', function() {
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('message')
                 expect(res.body.message).toEqual('You need to login first')
-  
-                done()
-            })
-  
-    })
-    it('should send response with 500 status code', function(done) {
-        //setup
-
-        //execute
-        request(app)
-            .get(`/client/${dummyId + 10}/history`)
-            .set('access_token', access_token)
-            .end((err, res) => {
-                if (err) done(err)
-  
-                //assert
-                expect(res.statusCode).toEqual(500)
-                expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('message')
-                expect(res.body.message).toEqual('Internal Server Error')
   
                 done()
             })
