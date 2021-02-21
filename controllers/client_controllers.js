@@ -3,15 +3,15 @@ const { comparePass } = require('../helpers/bcrypt')
 const { loginToken } = require('../helpers/jwt')
 
 class ClientController {
-  // static findClient(req, res, next) {
-  //   Client.findAll()
-  //     .then(data => {
-  //       res.status(201).json(data)
-  //     })
-  //     .catch(err => {
-  //       next(err)
-  //     })
-  // }
+  static findClient(req, res, next) {
+    Client.findAll()
+      .then(data => {
+        res.status(201).json(data)
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
 
   static register(req, res, next) {
     const { fullName, email, password, photoUrl, birthDate, gender, city } = req.body
@@ -55,8 +55,9 @@ class ClientController {
         if (!client) {
             // console.log('ga ada email')
             next({name: 'Invalid Email / Password'})
+            console.log(client);
         } else {
-            const { fullName, email, photoUrl, birthDate, gender, city } = client
+            const { id, fullName, email, photoUrl, birthDate, gender, city } = client
             const isValidPass = comparePass(password, client.password)
             if (isValidPass) {
                 const payload = {
@@ -67,12 +68,14 @@ class ClientController {
                 return res.status(200).json({ 
                   access_token,
                   data: {
+                    id,
                     fullName,
                     email,
                     photoUrl,
                     birthDate,
                     gender,
                     city
+                    
                   } 
                 })
             } else {
@@ -80,7 +83,9 @@ class ClientController {
             }
         }
     } catch (err) {
+      console.log(err.message)
         next(err)
+        ;
     }
   }
 
