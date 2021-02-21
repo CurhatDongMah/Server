@@ -716,7 +716,6 @@ describe('GET/client/:id/history', function() {
                 //assert
                 expect(res.statusCode).toEqual(200)
                 expect(typeof res.body).toEqual('object')
-                expect(res.body).toHaveProperty('Therapists')
   
                 done()
             })

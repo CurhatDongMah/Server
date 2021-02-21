@@ -1,4 +1,4 @@
-const { Client, Therapist } = require('../models/index')
+const { Client, Therapist, Order } = require('../models/index')
 const { comparePass } = require('../helpers/bcrypt')
 const { loginToken } = require('../helpers/jwt')
 
@@ -106,10 +106,21 @@ class ClientController {
   }
 
   static findHistory(req, res, next) {
-    const id = +req.params.id
-    Client.findByPk(id, {
+    const ClientId = +req.params.id
+    // Order.findAll({
+    //   where: {
+    //     ClientId
+    //   },
+    //   include: {
+    //     model: Therapist
+    //   }
+    // })
+    Therapist.findAll({
       include: {
-       model: Therapist
+        model: Order,
+        where: {
+          ClientId
+        }
       }
     })
       .then(data => {

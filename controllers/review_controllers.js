@@ -44,6 +44,7 @@ class ReviewController {
           }
         })
         .then(data => {
+          console.log(newReview)
           res.status(201).json(newReview)
         })
       })

@@ -12,12 +12,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Therapist.belongsToMany(models.Client, {
-        through: models.Order
-      })
-      Therapist.belongsToMany(models.Client, {
-        through: models.Review
-      })
+      // Therapist.belongsToMany(models.Client, {
+      //   through: models.Order
+      // })
+      // Therapist.belongsToMany(models.Client, {
+      //   through: models.Review
+      // })
+      Therapist.hasMany(models.Order)
+      Therapist.hasMany(models.Review)
     }
   };
   Therapist.init({

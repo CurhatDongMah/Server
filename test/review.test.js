@@ -58,6 +58,8 @@ describe('POST/client/:id/review', function() {
         //assert
         expect(res.statusCode).toEqual(201)
         expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('id')
+        expect(typeof res.body.id).toEqual('number')
         expect(res.body).toHaveProperty('ClientId')
         expect(res.body.ClientId).toEqual(ClientId)
         expect(res.body).toHaveProperty('TherapistId')
