@@ -109,14 +109,18 @@ class ClientController {
     const ClientId = req.loggedInClient.id
     Order.findAll({
       where: {
-        ClientId
+        ClientId,
+        status: "completed"
       },
       include: {
-        model: Therapist
+        model: Therapist,
+        attributes: {exclude: ["password"] }, required: false 
       }
+      
     })
       .then(data => {
         res.status(200).json(data)
+       
       })
       .catch(err => {
         next(err)
