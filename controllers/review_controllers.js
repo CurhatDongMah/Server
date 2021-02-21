@@ -15,7 +15,6 @@ class ReviewController {
     }
     Review.create(obj)
       .then(data => {
-        // console.log('masuk then pertama')
         newReview = data
         return Review.findAll({
           where: {

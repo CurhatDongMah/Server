@@ -18,8 +18,27 @@ module.exports = (sequelize, DataTypes) => {
   Review.init({
     ClientId: DataTypes.INTEGER,
     TherapistId: DataTypes.INTEGER,
-    rating: DataTypes.FLOAT,
-    review: DataTypes.STRING
+    rating: {
+      type:DataTypes.FLOAT,
+      validate: {
+        max: {
+          args: [5],
+          msg: 'the maximum value is 5'
+        },
+        min: {
+          args: [1],
+          msg: 'the minimum value is 1'
+        }
+      }
+    },
+    review: {
+      type:DataTypes.STRING,
+      validate: {
+        notEmpty:{
+          msg: 'review is required'
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'Review',
