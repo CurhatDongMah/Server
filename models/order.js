@@ -17,7 +17,14 @@ module.exports = (sequelize, DataTypes) => {
   };
   Order.init({
     ClientId: DataTypes.INTEGER,
-    TherapistId: DataTypes.INTEGER
+    TherapistId: {
+      type:DataTypes.INTEGER,
+      validate: {
+        notEmpty:{
+          msg: 'TherapistId is required'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Order',

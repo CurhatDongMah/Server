@@ -1,10 +1,12 @@
 const app = require('../app')
 const request = require('supertest')
 const { clearClients, registerClient } = require('./helpers/helpers_client')
+const { registerTherapist, clearTherapists } = require('./helpers/helpers_therapist')
 const { loginToken } = require('../helpers/jwt')
 
 let dummyId = 1
 let access_token = ''
+let TherapistId
 
 describe('POST/client/register', function() {
   afterAll(function(done) {
@@ -887,3 +889,107 @@ describe('GET /client/alltherapists', () => {
         })
     })
   })
+
+describe('POST /client/order', () => {
+    beforeAll(function(done) {
+        registerClient()
+        .then(data => {
+            let payload = {
+                id: data.id,
+                email: data.email
+            }
+            access_token = loginToken(payload)
+            
+            // console.log(dummyId, 'ini dummy iddddd')
+            return registerTherapist()
+        })
+        .then(data => {
+            TherapistId = data.id
+            done()
+
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+    afterAll(function(done) {
+        clearClients()
+        .then(data => {
+            return clearTherapists()
+        })
+        .then(data => {
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+
+
+    it('should return response 201 with success message', function(done) {
+        // Setup
+        // Execute
+        request(app)
+          .post(`/client/order`)
+          .set('access_token', access_token)
+          .send({TherapistId})
+          .end(function(err, res) {
+            if(err) done(err)
+  
+            // Assert
+            expect(res.statusCode).toEqual(201)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('TherapistId')
+            expect(res.body).toHaveProperty('ClientId')
+            
+  
+            done()
+          })
+  
+      })
+
+      it('should send response with 401 status code', function(done) {
+        // Setup
+        // Execute
+        request(app)
+          .post(`/client/order`)
+          .send({TherapistId})
+          .end(function(err, res) {
+            if(err) done(err)
+  
+            // Assert
+            expect(res.statusCode).toEqual(401)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(typeof res.body.message).toEqual('string')
+            expect(res.body.message).toEqual('You need to login first')
+  
+            done()
+          })
+  
+      })
+
+      it('should send response with 400 status code', function(done) {
+        // Setup
+        // Execute
+        request(app)
+          .post(`/client/order`)
+          .send({TherapistId: ''})
+          .set('access_token', access_token)
+          .end(function(err, res) {
+            if(err) done(err)
+  
+            // Assert
+            expect(res.statusCode).toEqual(400)
+              expect(typeof res.body).toEqual('object')
+              expect(res.body).toHaveProperty('message')
+              expect(Array.isArray(res.body.message)).toEqual(true)
+              expect(res.body.message).toEqual(
+                  expect.arrayContaining(['TherapistId is required'])
+              )
+  
+              done()
+          })
+  
+      })
+}) 
