@@ -115,14 +115,6 @@ class ClientController {
         model: Therapist
       }
     })
-    // Therapist.findAll({
-    //   include: {
-    //     model: Order,
-    //     where: {
-    //       ClientId
-    //     }
-    //   }
-    // })
       .then(data => {
         res.status(200).json(data)
       })

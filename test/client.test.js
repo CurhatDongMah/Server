@@ -1,12 +1,14 @@
 const app = require('../app')
 const request = require('supertest')
-const { clearClients, registerClient } = require('./helpers/helpers_client')
+const { clearClients, registerClient, createOrder, clearOrders } = require('./helpers/helpers_client')
 const { registerTherapist, clearTherapists } = require('./helpers/helpers_therapist')
 const { loginToken } = require('../helpers/jwt')
+const order = require('../models/order')
 
 let dummyId = 1
 let access_token = ''
 let TherapistId
+let orderId = 1
 
 describe('POST/client/register', function() {
   afterAll(function(done) {
@@ -917,6 +919,9 @@ describe('POST /client/order', () => {
             return clearTherapists()
         })
         .then(data => {
+            return clearOrders()
+        })
+        .then(data => {
             done()
         })
         .catch(err => {
@@ -992,3 +997,94 @@ describe('POST /client/order', () => {
   
       })
 }) 
+
+describe('PATCH /client/order/:id', () => {
+    beforeAll(function(done) {
+        registerClient()
+        .then(data => {
+            let payload = {
+                id: data.id,
+                email: data.email
+            }
+            access_token = loginToken(payload)
+            dummyId = data.id
+            return registerTherapist()
+        })
+        .then(data => {
+            TherapistId = data.id
+            return createOrder(TherapistId)
+        })
+        .then(data => {
+            orderId = data.id
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+    afterAll(function(done) {
+        clearClients()
+        .then(data => {
+            return clearTherapists()
+        })
+        .then(data => {
+            return clearOrders()
+        })
+        .then(data => {
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+    it('should send response with 200 status code', function(done) {
+        //setup
+        const body = {
+            status: 'completed'
+        }
+        //execute
+        request(app)
+            .patch(`/client/order/${orderId}`)
+            .set('access_token', access_token)
+            .send(body)
+            .end((err, res) => {
+                if (err) done(err)
+  
+                //assert
+                expect(res.statusCode).toEqual(200)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('id')
+                expect(typeof res.body.id).toEqual('number')
+                expect(res.body).toHaveProperty('TherapistId')
+                expect(res.body.TherapistId).toEqual(TherapistId)
+                expect(res.body).toHaveProperty('status')
+                expect(res.body.status).toEqual(body.status)
+  
+                done()
+            })
+  
+    })
+    it('should send response with 500 status code', function(done) {
+        //setup
+        const body = {
+            status: 'completed'
+        }
+        //execute
+        request(app)
+            .patch(`/client/order/${orderId + 10}`)
+            .set('access_token', access_token)
+            .send(body)
+            .end((err, res) => {
+                if (err) done(err)
+  
+                //assert
+                expect(res.statusCode).toEqual(500)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('Internal Server Error')
+  
+                done()
+            })
+  
+    })
+})

@@ -1,4 +1,4 @@
-const { Client, sequelize } = require('../../models')
+const { Client, Order, sequelize } = require('../../models')
 const { queryInterface } = sequelize;
 
 function clearClients() {
@@ -22,4 +22,19 @@ function registerClient() {
     }
 }
 
-module.exports = { clearClients, registerClient }
+function createOrder(TherapistId) {
+    if (process.env.NODE_ENV === 'test') {
+        const obj = {
+            TherapistId
+        }
+        return Order.create(obj)
+    }
+}
+
+function clearOrders() {
+    if (process.env.NODE_ENV === 'test') {
+        return Order.destroy({ where: {}})
+    }
+}
+
+module.exports = { clearClients, registerClient, createOrder, clearOrders }
