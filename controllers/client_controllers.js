@@ -107,22 +107,22 @@ class ClientController {
 
   static findHistory(req, res, next) {
     const ClientId = +req.params.id
-    // Order.findAll({
-    //   where: {
-    //     ClientId
-    //   },
-    //   include: {
-    //     model: Therapist
-    //   }
-    // })
-    Therapist.findAll({
+    Order.findAll({
+      where: {
+        ClientId
+      },
       include: {
-        model: Order,
-        where: {
-          ClientId
-        }
+        model: Therapist
       }
     })
+    // Therapist.findAll({
+    //   include: {
+    //     model: Order,
+    //     where: {
+    //       ClientId
+    //     }
+    //   }
+    // })
       .then(data => {
         res.status(200).json(data)
       })
