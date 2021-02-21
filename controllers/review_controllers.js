@@ -2,8 +2,9 @@ const { Review, Therapist } = require('../models/index')
 
 class ReviewController {
   static create(req, res, next) {
-    console.log('masuk review create')
-    const { ClientId, TherapistId, rating, review } = req.body
+    const ClientId = +req.params.id
+    // console.log('masuk review create')
+    const { TherapistId, rating, review } = req.body
     let newReview = {}
     let numberOfRatings = 0
     const obj = {
