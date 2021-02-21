@@ -55,7 +55,7 @@ class ClientController {
         if (!client) {
             // console.log('ga ada email')
             next({name: 'Invalid Email / Password'})
-            console.log(client);
+
         } else {
             const { id, fullName, email, photoUrl, birthDate, gender, city } = client
             const isValidPass = comparePass(password, client.password)
@@ -83,7 +83,6 @@ class ClientController {
             }
         }
     } catch (err) {
-      console.log(err.message)
         next(err)
         ;
     }
