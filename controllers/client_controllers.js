@@ -3,15 +3,15 @@ const { comparePass } = require('../helpers/bcrypt')
 const { loginToken } = require('../helpers/jwt')
 
 class ClientController {
-  static findClient(req, res, next) {
-    Client.findAll()
-      .then(data => {
-        res.status(201).json(data)
-      })
-      .catch(err => {
-        next(err)
-      })
-  }
+  // static findClient(req, res, next) {
+  //   Client.findAll()
+  //     .then(data => {
+  //       res.status(201).json(data)
+  //     })
+  //     .catch(err => {
+  //       next(err)
+  //     })
+  // }
 
   static register(req, res, next) {
     const { fullName, email, password, photoUrl, birthDate, gender, city } = req.body
