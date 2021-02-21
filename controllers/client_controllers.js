@@ -127,6 +127,28 @@ class ClientController {
       })
   }
 
+  static findOnGoing(req, res, next) {
+    const ClientId = req.loggedInClient.id
+    Order.findAll({
+      where: {
+        ClientId,
+        status: "ongoing"
+      },
+      include: {
+        model: Therapist,
+        attributes: {exclude: ["password"] }, required: false 
+      }
+      
+    })
+      .then(data => {
+        res.status(200).json(data)
+       
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+
   static async delete(req,res,next){
     try {
       const data = await Client.destroy({
