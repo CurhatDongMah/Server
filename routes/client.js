@@ -16,7 +16,7 @@ router.get('/alltherapists', TherapistController.getAll)
 router.put('/:id', authorizeClient, ClientController.update)
 router.delete('/:id', authorizeClient, ClientController.delete)
 router.get('/:id/history',authorizeClient, ClientController.findHistory)
-router.post('/:id/review', authenticationClient, ReviewController.create)
+router.post('/:id/review', authorizeClient, ReviewController.create)
 
 
 
