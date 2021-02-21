@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'TherapistId is required'
         }
       }
-    }
+    },
+    status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Order',

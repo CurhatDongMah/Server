@@ -8,7 +8,8 @@ class OrderController {
 
         const obj = {
             ClientId,
-            TherapistId
+            TherapistId,
+            status: 'not complete'
         }
 
         Order.create(obj)
