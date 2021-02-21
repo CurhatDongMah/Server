@@ -106,7 +106,7 @@ class ClientController {
   }
 
   static findHistory(req, res, next) {
-    const ClientId = +req.params.id
+    const ClientId = req.loggedInClient.id
     Order.findAll({
       where: {
         ClientId

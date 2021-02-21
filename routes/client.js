@@ -1,4 +1,4 @@
-const TherapistController = require('../controllers/TherapistController')
+const TherapistController = require('../controllers/therapist_controller')
 const { authenticationClient, authorizeClient } = require ('../middlewares/auth-client')
 const {ClientController} = require('../controllers/client_controllers')
 const OrderController = require('../controllers/order_controller')
@@ -16,7 +16,7 @@ router.patch('/order/:id', OrderController.changeStatus)
 router.get('/alltherapists', TherapistController.getAll)
 router.put('/:id', authorizeClient, ClientController.update)
 router.delete('/:id', authorizeClient, ClientController.delete)
-router.get('/:id/history',authorizeClient, ClientController.findHistory)
+router.get('/history', ClientController.findHistory)
 router.post('/:id/review', authorizeClient, ReviewController.create)
 
 
