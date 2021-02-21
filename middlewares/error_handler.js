@@ -20,12 +20,6 @@ function errorHandler(err, req, res, next) {
                     })
                     res.status(400).json({message: errMes2})
                     break
-                case 'Internal Server Error': 
-                    res.status(500).json({message: 'Internal Server Error'})
-                    break
-                case 'Data Not Found': 
-                    res.status(404).json({message: 'Data Not Found'})
-                    break
                 case 'Unauthorized':
                     res.status(401).json({message: 'Unauthorized'})
                     break

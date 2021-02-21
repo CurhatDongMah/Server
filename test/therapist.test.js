@@ -36,6 +36,15 @@ let therapist2 = {
 }
 
 describe('POST /therapist/register', function () {
+  beforeAll((done) => {
+    registerTherapist()
+      .then(() => {
+        done()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
   afterAll(function (done) {
     clearTherapists()
       .then(data => {
@@ -49,7 +58,7 @@ describe('POST /therapist/register', function () {
     //setup
     const body = {
       fullName: 'budi test',
-      email: 'tes@mail.com',
+      email: 'bukanbudi@mail.com',
       password: 'tes123',
       photoUrl: 'tyusdgtfu',
       birthDate: new Date(),
@@ -100,6 +109,39 @@ describe('POST /therapist/register', function () {
       })
 
   })
+
+  it('should send response with 400 status code', function (done) {
+    const body = {
+      fullName: 'hoho',
+      email: 'tes@mail.com',
+      password: 'tes123',
+      photoUrl: 'tyusdgtfu',
+      birthDate: new Date(),
+      gender: 'male',
+      city: 'jakarta',
+      licenseUrl: 'asad',
+      price: 5000,
+      about: 'asdasd'
+    }
+    request(app)
+      .post('/therapist/register')
+      .send(body)
+      .end((err, res) => {
+        if (err) done(err)
+
+        //assert
+        expect(res.statusCode).toEqual(400)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('message')
+        expect(Array.isArray(res.body.message)).toEqual(true)
+        expect(res.body.message).toEqual(
+          expect.arrayContaining(['email is already registered'])
+        )
+
+        done()
+      })
+  })
+
   it('should send response with 400 status code', function (done) {
     //setup
     const body = {
