@@ -15,7 +15,7 @@ app.use('/', routes)
 app.use(errorHandler)
 
 if (env === 'development') {
-    app.listen(port, () => {
+    app.listen(port, function() {
         console.log(`app running on ${port}`)
     })
 }

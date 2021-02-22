@@ -1,6 +1,5 @@
 const TherapistController = require('../controllers/therapist_controller')
 const { authenticationTherapist, authorizeTherapist } = require('../middlewares/auth-therapist')
-
 const router  = require('express').Router()
 
 

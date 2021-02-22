@@ -52,6 +52,24 @@ class ReviewController {
         next(err)
       })
   }
+
+  
+  static getReview (req, res, next ){
+    const TherapistId = +req.params.id
+
+    Review.findAll({
+      where: {
+        TherapistId
+      }
+    })
+    .then((result) => {
+      res.status(200).json(result)
+      
+    }).catch((err) => {
+      next(err)
+      
+    });
+  }
 }
 
 module.exports = { ReviewController }

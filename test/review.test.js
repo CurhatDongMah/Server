@@ -159,3 +159,67 @@ describe('POST/client/review', function() {
 
   })
 })
+
+describe('GET/client/review/:id', function() {
+  beforeAll(function(done) {
+    registerClient()
+      .then(data => {
+        let payload = {
+          id: data.id,
+          email: data.email
+        }
+        access_token = loginToken(payload)
+        ClientId = data.id
+        return registerTherapist1()
+      })
+      .then(data => {
+        TherapistId = data.id
+        done()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
+  afterAll(function(done) {
+      clearClients()
+      .then(data => {
+        return clearTherapists()
+      })
+      .then(data => {
+          done()
+      })
+      .catch(err => {
+          console.log(err)
+      })
+  })
+
+  it('should send response with 200 status code', (done) => {
+    request(app)
+      .get(`/client/review/${TherapistId}`)
+      .set('access_token', access_token)
+      .end((err, res) => {
+        if (err) done(err)
+
+        expect(res.statusCode).toEqual(200)
+        expect(Array.isArray(res.body)).toEqual(true)
+        done()
+      })
+  })
+
+  it('should send response with 401 status code', (done) => {
+    request(app)
+      .get(`/client/review/${TherapistId}`)
+      .end((err, res) => {
+        if (err) done(err)
+
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('message')
+        expect(res.body.message).toEqual('You need to login first')
+
+        done()
+      })
+  
+})
+
+})
