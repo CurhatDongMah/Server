@@ -1207,3 +1207,65 @@ describe('DELETE/client/order/:id', function() {
   
       })
 })
+
+describe('GET/client/therapist', function() {
+    beforeAll(function(done) {
+        registerClient()
+        .then(data => {
+            let payload = {
+                id: data.id,
+                email: data.email
+            }
+            access_token = loginToken(payload)
+            dummyId = data.id
+            // console.log(dummyId, 'ini dummy iddddd')
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+    afterAll(function(done) {
+        clearClients()
+        .then(data => {
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+
+    it('should send response with 200 status code', function(done) {
+        //setup
+        //execute
+        request(app)
+            .get('/client/therapist')
+            .set('access_token', access_token)
+            .end((err, res) => {
+                if (err) done(err)
+    
+                //assert
+                expect(res.statusCode).toEqual(200)
+                expect(Array.isArray(res.body)).toEqual(true)
+                done()
+            })
+    
+    })
+    it('should send response with 401 status code', function(done) {
+        //setup
+        //execute
+      request(app)
+        .get(`/client/therapist`)
+        .end((err, res) => {
+            if (err) done(err)
+    
+            //assert
+            expect(res.statusCode).toEqual(401)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(res.body.message).toEqual('You need to login first')
+    
+            done()
+        })
+      })
+})
