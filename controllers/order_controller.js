@@ -47,6 +47,19 @@ class OrderController {
             next(err)
           })
     }
+
+    static async delete(req,res,next){
+      try {
+        const data = await Order.destroy({
+          where : {
+            id : req.params.id
+          }
+        })
+        res.status(200).json({message : "Data has been deleted successfully"})
+      } catch (err) {
+        next(err)
+      }
+    }
 }
 
 module.exports = OrderController

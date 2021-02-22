@@ -1,4 +1,4 @@
-const { Therapist }  = require('../models')
+const { Therapist, Client, Order }  = require('../models')
 const { comparePass } = require('../helpers/bcrypt')
 const { loginToken } = require('../helpers/jwt')
 
