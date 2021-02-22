@@ -117,6 +117,28 @@ class TherapistController {
       .catch(next)
   }
 
+  static findHistory(req, res, next) {
+    const TherapistId = req.loggedInTherapist.id
+    Order.findAll({
+      where: {
+        TherapistId,
+        status: "completed"
+      },
+      include: {
+        model: Client,
+        attributes: {exclude: ["password"] }, required: false 
+      }
+      
+    })
+      .then(data => {
+        res.status(200).json(data)
+       
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+
 }
 
 module.exports = TherapistController

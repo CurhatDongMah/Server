@@ -10,6 +10,7 @@ router.post('/login', TherapistController.login)
 
 router.use(authenticationTherapist)
 router.patch('/status', TherapistController.updateStatus)
+router.get('/history', TherapistController.findHistory)
 router.put('/:id', authorizeTherapist, TherapistController.updateTherapist)
 router.delete('/:id', authorizeTherapist, TherapistController.delete)
 
