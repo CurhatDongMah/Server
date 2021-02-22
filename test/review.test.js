@@ -1,7 +1,7 @@
 const app = require('../app')
 const request = require('supertest')
 const { clearClients, registerClient } = require('./helpers/helpers_client')
-const { registerTherapist, clearTherapists } = require('./helpers/helpers_therapist')
+const { registerTherapist1, clearTherapists } = require('./helpers/helpers_therapist')
 const { loginToken } = require('../helpers/jwt')
 
 let ClientId = 1
@@ -18,7 +18,7 @@ describe('POST/client/review', function() {
         }
         access_token = loginToken(payload)
         ClientId = data.id
-        return registerTherapist()
+        return registerTherapist1()
       })
       .then(data => {
         TherapistId = data.id
