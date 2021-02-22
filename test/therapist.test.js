@@ -1,6 +1,6 @@
 const app = require('../app')
 const request = require('supertest')
-const { clearTherapists, registerTherapist } = require('./helpers/helpers_therapist')
+const { clearTherapists, registerTherapist1, registerTherapist2 } = require('./helpers/helpers_therapist')
 const { Therapist } = require('../models')
 const { loginToken } = require('../helpers/jwt')
 const { registerClient, clearClients, createOrder, clearOrders } = require('./helpers/helpers_client')
@@ -8,38 +8,11 @@ const { registerClient, clearClients, createOrder, clearOrders } = require('./he
 let access_token_therapist1
 let access_token_therapist2
 let id_therapist1
-let access_token
 let orderId
-
-let therapist1 = {
-  fullName: 'hoho',
-  email: 'oho@mail.com',
-  password: '1234',
-  photoUrl: 'tyusdgtfu',
-  birthDate: new Date(),
-  gender: 'male',
-  city: 'jakarta',
-  licenseUrl: 'asad',
-  price: 5000,
-  about: 'asdasd'
-}
-
-let therapist2 = {
-  fullName: 'meong',
-  email: 'meong@mail.com',
-  password: '1234',
-  photoUrl: 'tyusdgtfu',
-  birthDate: new Date(),
-  gender: 'male',
-  city: 'jakarta',
-  licenseUrl: 'asad',
-  price: 5000,
-  about: 'asdasd'
-}
 
 describe('POST /therapist/register', function () {
   beforeAll((done) => {
-    registerTherapist()
+    registerTherapist1()
       .then(() => {
         done()
       })
@@ -580,7 +553,7 @@ describe('POST /therapist/register', function () {
 
 describe('POST /therapist/login', function () {
   beforeAll((done) => {
-    registerTherapist()
+    registerTherapist1()
       .then(data => {
         done()
       })
@@ -661,13 +634,13 @@ describe('POST /therapist/login', function () {
 
 describe('GET /therapist/ongoing', () => {
   beforeAll((done) => {
-    registerTherapist()
+    registerTherapist1()
       .then(data => {
         let payload = {
           id: data.id, 
           email: data.email
         }
-        access_token = loginToken(payload)
+        access_token_therapist1 = loginToken(payload)
         done()
       })
       .catch(err => {
@@ -688,7 +661,7 @@ describe('GET /therapist/ongoing', () => {
     // Execute
     request(app)
       .get('/therapist/ongoing')
-      .set('access_token', access_token)
+      .set('access_token', access_token_therapist1)
       .end((err, res) => {
         if (err) done(err)
         // Assert
@@ -717,7 +690,7 @@ describe('GET /therapist/ongoing', () => {
 
 describe('PUT /therapist/:id', () => {
   beforeAll((done) => {
-    Therapist.create(therapist1)
+    registerTherapist1()
       .then(res => {
         let payload1 = {
           id: res.id,
@@ -726,7 +699,7 @@ describe('PUT /therapist/:id', () => {
         id_therapist1 = res.id
         access_token_therapist1 = loginToken(payload1)
         // console.log('ini akses token')
-        return Therapist.create(therapist2)
+        return registerTherapist2()
       })
       .then(res => {
         let payload = {
@@ -947,7 +920,7 @@ describe('PUT /therapist/:id', () => {
 
 describe('DELETE /therapist/:id', function() {
   beforeAll((done) => {
-    Therapist.create(therapist1)
+    registerTherapist1()
       .then(res => {
         let payload1 = {
           id: res.id,
@@ -956,7 +929,7 @@ describe('DELETE /therapist/:id', function() {
         id_therapist1 = res.id
         access_token_therapist1 = loginToken(payload1)
         // console.log('ini akses token')
-        return Therapist.create(therapist2)
+        return registerTherapist2()
       })
       .then(res => {
         let payload = {
@@ -1047,13 +1020,13 @@ describe('DELETE /therapist/:id', function() {
 
 describe('PATCH /therapist/status', function () {
   beforeAll((done) => {
-    registerTherapist()
+    registerTherapist1()
       .then(data => {
         let payload = {
           id: data.id,
           email: data.email
         }
-        access_token = loginToken(payload)
+        access_token_therapist1 = loginToken(payload)
         done()
       })
       .catch(err => {
@@ -1088,7 +1061,7 @@ describe('PATCH /therapist/status', function () {
     request(app)
       .patch(`/therapist/status`)
       .send({ status: true })
-      .set('access_token', access_token)
+      .set('access_token', access_token_therapist1)
       .end((err, res) => {
         if (err) done(err)
 
@@ -1104,14 +1077,14 @@ describe('PATCH /therapist/status', function () {
 //Get Completed history Therapist 
 describe('GET/therapist/history', function() {
   beforeAll(function(done) {
-      registerTherapist()
+      registerTherapist1()
       .then(data => {
           let payload = {
               id: data.id,
               email: data.email
           }
-          access_token = loginToken(payload)
-          dummyId = data.id
+          access_token_therapist1 = loginToken(payload)
+          id_therapist1 = data.id
           // console.log(dummyId, 'ini dummy iddddd')
           done()
       })
@@ -1133,7 +1106,7 @@ describe('GET/therapist/history', function() {
       //execute
       request(app)
           .get(`/therapist/history`)
-          .set('access_token', access_token)
+          .set('access_token', access_token_therapist1)
           .end((err, res) => {
               if (err) done(err)
 
@@ -1169,13 +1142,13 @@ describe('GET/therapist/history', function() {
 
 describe('PATCH /therapist/order/:id', () => {
   beforeAll(function(done) {
-      registerTherapist()
+      registerTherapist1()
       .then(data => {
           let payload = {
               id: data.id,
               email: data.email
           }
-          access_token = loginToken(payload)
+          access_token_therapist1 = loginToken(payload)
           id_therapist1 = data.id
           return registerClient()
       })
@@ -1211,7 +1184,7 @@ describe('PATCH /therapist/order/:id', () => {
       //execute
       request(app)
           .patch(`/therapist/order/${orderId}`)
-          .set('access_token', access_token)
+          .set('access_token', access_token_therapist1)
           .end((err, res) => {
               if (err) done(err)
 
@@ -1249,7 +1222,7 @@ describe('PATCH /therapist/order/:id', () => {
     //execute
     request(app)
         .patch(`/therapist/order/${orderId+2}`)
-        .set('access_token', access_token)
+        .set('access_token', access_token_therapist1)
         .end((err, res) => {
             if (err) done(err)
 
@@ -1266,13 +1239,13 @@ describe('PATCH /therapist/order/:id', () => {
 
 describe('GET /therapist/clients', () => {
   beforeAll(function(done) {
-    registerTherapist()
+    registerTherapist1()
       .then(data => {
           let payload = {
               id: data.id,
               email: data.email
           }
-          access_token = loginToken(payload)
+          access_token_therapist1 = loginToken(payload)
           id_therapist1 = data.id
           done()
       })
@@ -1295,7 +1268,7 @@ describe('GET /therapist/clients', () => {
     //execute
     request(app)
         .get('/therapist/clients')
-        .set('access_token', access_token)
+        .set('access_token', access_token_therapist1)
         .end((err, res) => {
             if (err) done(err)
 

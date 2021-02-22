@@ -1,9 +1,8 @@
 const app = require('../app')
 const request = require('supertest')
 const { clearClients, registerClient, createOrder, clearOrders } = require('./helpers/helpers_client')
-const { registerTherapist, clearTherapists } = require('./helpers/helpers_therapist')
+const { registerTherapist1, clearTherapists } = require('./helpers/helpers_therapist')
 const { loginToken } = require('../helpers/jwt')
-const order = require('../models/order')
 
 let dummyId = 1
 let access_token = ''
@@ -947,7 +946,7 @@ describe('POST /client/order', () => {
             access_token = loginToken(payload)
             
             // console.log(dummyId, 'ini dummy iddddd')
-            return registerTherapist()
+            return registerTherapist1()
         })
         .then(data => {
             TherapistId = data.id
@@ -1053,7 +1052,7 @@ describe('PATCH /client/order/:id', () => {
             }
             access_token = loginToken(payload)
             dummyId = data.id
-            return registerTherapist()
+            return registerTherapist1()
         })
         .then(data => {
             TherapistId = data.id
