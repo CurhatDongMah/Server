@@ -155,6 +155,24 @@ class TherapistController {
       })
       .catch(next)
   }
+
+  static changeCompleted (req, res, next) {
+    let orderId = +req.params.id
+    const input = {
+      status: 'completed'
+    }
+    Order.update(input, {
+      where: { id: orderId }
+    })
+      .then(data => {
+        if (data[0] === 1) {
+          res.status(200).json({ message: 'Order is completed' })
+        } else {
+          next({ name: 'Data Not Found'})
+        }
+      })
+      .catch(next)
+  }
 }
 
 module.exports = TherapistController

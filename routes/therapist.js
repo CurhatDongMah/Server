@@ -11,6 +11,7 @@ router.use(authenticationTherapist)
 router.get('/ongoing', TherapistController.findOnGoing)
 router.patch('/status', TherapistController.updateStatus)
 router.get('/history', TherapistController.findHistory)
+router.patch('/order/:id', TherapistController.changeCompleted)
 router.put('/:id', authorizeTherapist, TherapistController.updateTherapist)
 router.delete('/:id', authorizeTherapist, TherapistController.delete)
 

@@ -3,11 +3,13 @@ const request = require('supertest')
 const { clearTherapists, registerTherapist } = require('./helpers/helpers_therapist')
 const { Therapist } = require('../models')
 const { loginToken } = require('../helpers/jwt')
+const { registerClient, clearClients, createOrder, clearOrders } = require('./helpers/helpers_client')
 
 let access_token_therapist1
 let access_token_therapist2
 let id_therapist1
 let access_token
+let orderId
 
 let therapist1 = {
   fullName: 'hoho',
@@ -1162,5 +1164,102 @@ describe('GET/therapist/history', function() {
               done()
           })
 
+  })
+})
+
+describe('PATCH /therapist/order/:id', () => {
+  beforeAll(function(done) {
+      registerTherapist()
+      .then(data => {
+          let payload = {
+              id: data.id,
+              email: data.email
+          }
+          access_token = loginToken(payload)
+          id_therapist1 = data.id
+          return registerClient()
+      })
+      .then(data => {   
+          return createOrder(id_therapist1)
+      })
+      .then(data => {
+          orderId = data.id
+          done()
+      })
+      .catch(err => {
+          console.log(err)
+      })
+  })
+  afterAll(function(done) {
+      clearClients()
+      .then(data => {
+          return clearTherapists()
+      })
+      .then(data => {
+          return clearOrders()
+      })
+      .then(data => {
+          done()
+      })
+      .catch(err => {
+          console.log(err)
+      })
+  })
+  it('should send response with 200 status code', function(done) {
+      //setup
+    
+      //execute
+      request(app)
+          .patch(`/therapist/order/${orderId}`)
+          .set('access_token', access_token)
+          .end((err, res) => {
+              if (err) done(err)
+
+              //assert
+              expect(res.statusCode).toEqual(200)
+              expect(typeof res.body).toEqual('object')
+              expect(res.body).toHaveProperty('message')
+              expect(res.body.message).toEqual('Order is completed')
+
+              done()
+          })
+
+  })
+  it('should send response with 401 status code', function(done) {
+    //setup
+  
+    //execute
+    request(app)
+        .patch(`/therapist/order/${orderId}`)
+        .end((err, res) => {
+            if (err) done(err)
+
+            //assert
+            expect(res.statusCode).toEqual(401)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(res.body.message).toEqual('You need to login first')
+
+            done()
+        })
+  })
+  it('should send response with 404 status code', function(done) {
+    //setup
+  
+    //execute
+    request(app)
+        .patch(`/therapist/order/${orderId+2}`)
+        .set('access_token', access_token)
+        .end((err, res) => {
+            if (err) done(err)
+
+            //assert
+            expect(res.statusCode).toEqual(404)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(res.body.message).toEqual('Data Not Found')
+
+            done()
+        })
   })
 })
