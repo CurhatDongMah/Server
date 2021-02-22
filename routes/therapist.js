@@ -8,6 +8,7 @@ router.post('/register', TherapistController.register)
 router.post('/login', TherapistController.login)
 
 router.use(authenticationTherapist)
+router.get('/clients', TherapistController.getClients)
 router.get('/ongoing', TherapistController.findOnGoing)
 router.patch('/status', TherapistController.updateStatus)
 router.get('/history', TherapistController.findHistory)

@@ -1263,3 +1263,64 @@ describe('PATCH /therapist/order/:id', () => {
         })
   })
 })
+
+describe('GET /therapist/clients', () => {
+  beforeAll(function(done) {
+    registerTherapist()
+      .then(data => {
+          let payload = {
+              id: data.id,
+              email: data.email
+          }
+          access_token = loginToken(payload)
+          id_therapist1 = data.id
+          done()
+      })
+      .catch(err => {
+          console.log(err)
+      })
+    })
+  afterAll(function(done) {
+    clearTherapists()
+    .then(data => {
+        done()
+    })
+    .catch(err => {
+        console.log(err)
+    })
+  })
+
+  it('should send response with 200 status code', function(done) {
+    //setup
+    //execute
+    request(app)
+        .get('/therapist/clients')
+        .set('access_token', access_token)
+        .end((err, res) => {
+            if (err) done(err)
+
+            //assert
+            expect(res.statusCode).toEqual(200)
+            expect(Array.isArray(res.body)).toEqual(true)
+            done()
+        })
+
+})
+it('should send response with 401 status code', function(done) {
+    //setup
+    //execute
+  request(app)
+    .get(`/therapist/clients`)
+    .end((err, res) => {
+        if (err) done(err)
+
+        //assert
+        expect(res.statusCode).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('message')
+        expect(res.body.message).toEqual('You need to login first')
+
+        done()
+    })
+  })
+})
