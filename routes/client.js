@@ -19,7 +19,7 @@ router.put('/:id', authorizeClient, ClientController.update)
 router.delete('/:id', authorizeClient, ClientController.delete)
 router.get('/history', ClientController.findHistory)
 router.get('/ongoing', ClientController.findOnGoing)
-router.post('/:id/review', authorizeClient, ReviewController.create)
+router.post('/review', ReviewController.create)
 
 
 

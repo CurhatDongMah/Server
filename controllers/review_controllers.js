@@ -2,7 +2,7 @@ const { Review, Therapist } = require('../models/index')
 
 class ReviewController {
   static create(req, res, next) {
-    const ClientId = +req.params.id
+    const ClientId = req.loggedInClient.id
     // console.log('masuk review create')
     const { TherapistId, rating, review } = req.body
     let newReview = {}
