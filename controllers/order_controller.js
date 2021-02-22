@@ -4,13 +4,15 @@ class OrderController {
     static create (req, res, next) {
         const ClientId = req.loggedInClient.id
         console.log(ClientId, 'ini dari create order')
-        const {TherapistId} = req.body
+        const {TherapistId, totalHour, price} = req.body
         // const newOrder = {}
 
         const obj = {
             ClientId,
             TherapistId,
-            status: 'not completed'
+            status: 'not completed',
+            totalHour,
+            totalPrice: totalHour * price
         }
 
         Order.create(obj)
@@ -18,6 +20,7 @@ class OrderController {
             res.status(201).json(result)
             
         }).catch((err) => {
+          console.log(err.message);
             next(err)
             
         });

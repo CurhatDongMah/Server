@@ -980,7 +980,7 @@ describe('POST /client/order', () => {
         request(app)
           .post(`/client/order`)
           .set('access_token', access_token)
-          .send({TherapistId})
+          .send({TherapistId, price:100000, totalHour:3})
           .end(function(err, res) {
             if(err) done(err)
   
@@ -1001,7 +1001,7 @@ describe('POST /client/order', () => {
         // Execute
         request(app)
           .post(`/client/order`)
-          .send({TherapistId})
+          .send({TherapistId, price:100000, totalHour:3})
           .end(function(err, res) {
             if(err) done(err)
   
@@ -1022,7 +1022,7 @@ describe('POST /client/order', () => {
         // Execute
         request(app)
           .post(`/client/order`)
-          .send({TherapistId: ''})
+          .send({TherapistId: '', price:100000, totalHour:3})
           .set('access_token', access_token)
           .end(function(err, res) {
             if(err) done(err)
