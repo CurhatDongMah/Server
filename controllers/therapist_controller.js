@@ -173,6 +173,16 @@ class TherapistController {
       })
       .catch(next)
   }
+
+  static getClients (req, res, next) {
+    Client.findAll({
+      attributes: { exclude: ['password'] }
+    })
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .catch(next)
+  }
 }
 
 module.exports = TherapistController
