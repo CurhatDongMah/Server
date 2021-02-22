@@ -10,7 +10,7 @@ class OrderController {
         const obj = {
             ClientId,
             TherapistId,
-            status: 'not complete'
+            status: 'not completed'
         }
 
         Order.create(obj)
