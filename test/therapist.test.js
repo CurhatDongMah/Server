@@ -655,6 +655,62 @@ describe('POST /therapist/login', function () {
   })
 })
 
+describe('GET /therapist/ongoing', () => {
+  beforeAll((done) => {
+    registerTherapist()
+      .then(data => {
+        let payload = {
+          id: data.id, 
+          email: data.email
+        }
+        access_token = loginToken(payload)
+        done()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
+
+  afterAll(function (done) {
+    clearTherapists()
+      .then(data => {
+        done()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
+  it('should send response with 200 status code', function (done) {
+    // Execute
+    request(app)
+      .get('/therapist/ongoing')
+      .set('access_token', access_token)
+      .end((err, res) => {
+        if (err) done(err)
+        // Assert
+        expect(res.statusCode).toEqual(200)
+        expect(typeof res.body).toEqual('object')
+
+        done()
+      })
+  })
+  it('should send response with 401 "You need to login first"', (done) => {
+    //Setup 
+    // Execute
+    request(app)
+      .get('/therapist/login')
+      .end((err, res) => {
+        if (err) done(err)
+        // Assert 
+        expect(res.statusCode).toEqual(401)
+        expect(res.body).toHaveProperty('message', 'You need to login first')
+
+        done()
+      })
+  })
+
+})
+
 describe('PUT /therapist/:id', () => {
   beforeAll((done) => {
     Therapist.create(therapist1)

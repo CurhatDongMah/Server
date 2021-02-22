@@ -1,4 +1,4 @@
-const { Therapist }  = require('../models')
+const { Therapist, Order, Client }  = require('../models')
 const { comparePass } = require('../helpers/bcrypt')
 const { loginToken } = require('../helpers/jwt')
 
@@ -115,6 +115,25 @@ class TherapistController {
         res.status(200).json({ message: "Successfully updated"})
       })
       .catch(next)
+  }
+
+  static findOnGoing(req, res, next) {
+    let TherapistId = req.loggedInTherapist.id
+    Order.findAll({
+      where: {
+        TherapistId, 
+        status: "ongoing"
+      },
+      include: {
+        model: Client,
+        attributes: {exclude: ["password"] }, required: false 
+      }
+    })
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .catch(next)
+
   }
 
 }
