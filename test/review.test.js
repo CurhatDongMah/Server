@@ -8,7 +8,7 @@ let ClientId = 1
 let access_token = ''
 let TherapistId = 1
 
-describe('POST/client/:id/review', function() {
+describe('POST/client/review', function() {
   beforeAll(function(done) {
     registerClient()
       .then(data => {
@@ -49,7 +49,7 @@ describe('POST/client/:id/review', function() {
     }
     //execute
     request(app)
-      .post(`/client/${ClientId}/review`)
+      .post(`/client/review`)
       .set('access_token', access_token)
       .send(body)
       .end((err, res) => {
@@ -73,31 +73,7 @@ describe('POST/client/:id/review', function() {
       })
 
   })
-  it('should send response with 500 status code', function(done) {
-    //setup
-    const body = {
-        TherapistId,
-        rating: 5,
-        review: 'balallnsdkjfl'
-    }
-    //execute
-    request(app)
-      .post(`/client/${ClientId + 10}/review`)
-      .set('access_token', access_token)
-      .send(body)
-      .end((err, res) => {
-        if (err) done(err)
 
-        //assert
-        expect(res.statusCode).toEqual(500)
-        expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('message')
-        expect(res.body.message).toEqual('Internal Server Error')
-
-        done()
-      })
-
-  })
   it('should send response with 400 status code', function(done) {
     //setup
     const body = {
@@ -107,7 +83,7 @@ describe('POST/client/:id/review', function() {
     }
     //execute
     request(app)
-      .post(`/client/${ClientId}/review`)
+      .post(`/client/review`)
       .set('access_token', access_token)
       .send(body)
       .end((err, res) => {
@@ -135,7 +111,7 @@ describe('POST/client/:id/review', function() {
     }
     //execute
     request(app)
-      .post(`/client/${ClientId}/review`)
+      .post(`/client/review`)
       .set('access_token', access_token)
       .send(body)
       .end((err, res) => {
@@ -163,7 +139,7 @@ describe('POST/client/:id/review', function() {
     }
     //execute
     request(app)
-      .post(`/client/${ClientId}/review`)
+      .post(`/client/review`)
       .set('access_token', access_token)
       .send(body)
       .end((err, res) => {

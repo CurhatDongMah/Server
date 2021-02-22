@@ -634,6 +634,8 @@ describe('POST /therapist/login', function () {
         done()
       })
   })
+
+
   it('should send response with 400 "Invalid Email/Password"', (done) => {
     //Setup 
     let userObj = {
