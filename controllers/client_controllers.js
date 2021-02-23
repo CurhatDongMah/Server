@@ -95,7 +95,9 @@ class ClientController {
       }
     })
       .then(data => {
-        return Client.findByPk(id)
+        return Client.findByPk(id, {
+          attributes: { exclude: ['password']}
+        })
       })
       .then(data => {
         res.status(200).json(data)

@@ -1,7 +1,6 @@
 const app = require('../app')
 const request = require('supertest')
 const { clearTherapists, registerTherapist1, registerTherapist2 } = require('./helpers/helpers_therapist')
-const { Therapist } = require('../models')
 const { loginToken } = require('../helpers/jwt')
 const { registerClient, clearClients, createOrder, clearOrders } = require('./helpers/helpers_client')
 
@@ -729,17 +728,13 @@ describe('PUT /therapist/:id', () => {
   it('should send response with 401 status code', (done) => {
     const updateTherapist = {
       fullName: 'nama baru',
-      email: 'tesbaru@mail.com',
-      password: '123',
       photoUrl: 'asd',
       birthDate: new Date(),
       gender: 'female',
       city: 'bekasi',
       licenseUrl: 'meong',
       price: 10000,
-      status: true,
-      about: 'asd',
-      rating: 2
+      about: 'asd'
     }
 
     request(app)
@@ -758,17 +753,13 @@ describe('PUT /therapist/:id', () => {
   it('should send response with 401 status code', (done) => {
     const updateTherapist = {
       fullName: 'nama baru',
-      email: 'tesbaru@mail.com',
-      password: '123',
       photoUrl: 'asd',
       birthDate: new Date(),
       gender: 'female',
       city: 'bekasi',
       licenseUrl: 'meong',
       price: 10000,
-      status: true,
-      about: 'asd',
-      rating: 2
+      about: 'asd'
     }
 
     request(app)
@@ -788,17 +779,13 @@ describe('PUT /therapist/:id', () => {
   it('should send response with 400 status code', (done) => {
     const updateTherapist = {
       fullName: '',
-      email: '',
-      password: '123',
       photoUrl: 'asd',
       birthDate: '',
       gender: 'female',
       city: 'bekasi',
       licenseUrl: 'meong',
       price: 10000,
-      status: true,
-      about: 'asd',
-      rating: 2
+      about: 'asd'
     }
 
     request(app)
@@ -813,7 +800,7 @@ describe('PUT /therapist/:id', () => {
         expect(res.body).toHaveProperty('message')
         expect(Array.isArray(res.body.message)).toEqual(true)
         expect(res.body.message).toEqual(
-          expect.arrayContaining(['fullName is required', 'email is required', 'birthDate is required'])
+          expect.arrayContaining(['fullName is required', 'birthDate is required'])
         )
         done()
       })
@@ -822,18 +809,14 @@ describe('PUT /therapist/:id', () => {
 
   it('should send response with 400 status code', (done) => {
     const updateTherapist = {
-      fullName: 'aku',
-      email: '',
-      password: '123',
+      fullName: 'nama baru',
       photoUrl: 'asd',
       birthDate: new Date(),
       gender: '',
       city: 'bekasi',
       licenseUrl: 'meong',
-      price: "asdasd",
-      status: true,
-      about: 'asd',
-      rating: 2
+      price: 'asd',
+      about: 'asd'
     }
 
     request(app)
@@ -848,7 +831,7 @@ describe('PUT /therapist/:id', () => {
         expect(res.body).toHaveProperty('message')
         expect(Array.isArray(res.body.message)).toEqual(true)
         expect(res.body.message).toEqual(
-          expect.arrayContaining(['email is required', 'gender is required', 'Price must be a number'])
+          expect.arrayContaining(['gender is required', 'Price must be a number'])
         )
         done()
       })
@@ -856,18 +839,14 @@ describe('PUT /therapist/:id', () => {
 
   it('should send response with 400 status code', (done) => {
     const updateTherapist = {
-      fullName: 'aku',
-      email: 'asd',
-      password: '123',
+      fullName: 'nama baru',
       photoUrl: 'asd',
       birthDate: new Date(),
-      gender: 'asd',
+      gender: 'female',
       city: '',
       licenseUrl: '',
       price: -1,
-      status: true,
-      about: 'asd',
-      rating: 2
+      about: 'asd'
     }
 
     request(app)
@@ -888,31 +867,39 @@ describe('PUT /therapist/:id', () => {
       })
   })
   it('should send response with 200 status code', (done) => {
-    const updateTherapist = {
+    const body = {
       fullName: 'nama baru',
-      email: 'tesbaru@mail.com',
-      password: '123',
       photoUrl: 'asd',
       birthDate: new Date(),
       gender: 'female',
       city: 'bekasi',
       licenseUrl: 'meong',
       price: 10000,
-      status: true,
-      about: 'asd',
-      rating: 2
+      about: 'asd'
     }
 
     request(app)
       .put(`/therapist/${id_therapist1}`)
-      .send(updateTherapist)
+      .send(body)
       .set('access_token', access_token_therapist1)
       .end((err, res) => {
         if (err) done(err)
 
         expect(res.statusCode).toEqual(200)
         expect(typeof res.body).toEqual('object')
-        expect(res.body).toHaveProperty('message', 'Successfully updated therapist data')
+        expect(res.body).toHaveProperty('id')
+        expect(typeof res.body.id).toEqual('number')
+        expect(res.body).toHaveProperty('fullName')
+        expect(res.body.fullName).toEqual(body.fullName)
+        expect(res.body).toHaveProperty('photoUrl')
+        expect(res.body.photoUrl).toEqual(body.photoUrl)
+        expect(res.body).toHaveProperty('birthDate')
+        expect(res.body.birthDate).toEqual(body.birthDate.toISOString())
+        expect(res.body).toHaveProperty('gender')
+        expect(res.body.gender).toEqual(body.gender)
+        expect(res.body).toHaveProperty('city')
+        expect(res.body.city).toEqual(body.city)
+
         done()
       })
   })
