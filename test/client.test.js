@@ -3,7 +3,6 @@ const request = require('supertest')
 const { registerClient2, clearClients, registerClient, createOrder, clearOrders } = require('./helpers/helpers_client')
 const { registerTherapist1, clearTherapists } = require('./helpers/helpers_therapist')
 const { loginToken } = require('../helpers/jwt')
-const { register } = require('../controllers/therapist_controller')
 
 let dummyId = 1
 let access_token = ''
