@@ -1,4 +1,4 @@
-const { Review, Therapist } = require('../models/index')
+const { Review, Therapist, Client } = require('../models/index')
 
 class ReviewController {
   static create(req, res, next) {
@@ -53,13 +53,17 @@ class ReviewController {
       })
   }
 
-  
+
   static getReview (req, res, next ){
     const TherapistId = +req.params.id
 
     Review.findAll({
       where: {
         TherapistId
+      },
+      include: {
+        model: Client,
+        attributes: {exclude: ["password"] }, required: false 
       }
     })
     .then((result) => {
