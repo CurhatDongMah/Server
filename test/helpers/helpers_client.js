@@ -37,4 +37,20 @@ function clearOrders() {
     }
 }
 
-module.exports = { clearClients, registerClient, createOrder, clearOrders }
+function registerClient2() {
+    if (process.env.NODE_ENV === 'test') {
+        const obj = {
+          fullName: 'meww',
+          email: 'akutidakgila@mail.com',
+          password: 'tes123',
+          photoUrl: 'tyusdgtfu',
+          birthDate: new Date('2001-04-01'),
+          gender: 'male',
+          city: 'jakarta'
+        }
+        return Client.create(obj)
+    }
+}
+
+
+module.exports = { registerClient2, clearClients, registerClient, createOrder, clearOrders }

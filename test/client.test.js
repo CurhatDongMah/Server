@@ -1,13 +1,15 @@
 const app = require('../app')
 const request = require('supertest')
-const { clearClients, registerClient, createOrder, clearOrders } = require('./helpers/helpers_client')
+const { registerClient2, clearClients, registerClient, createOrder, clearOrders } = require('./helpers/helpers_client')
 const { registerTherapist1, clearTherapists } = require('./helpers/helpers_therapist')
 const { loginToken } = require('../helpers/jwt')
+const { register } = require('../controllers/therapist_controller')
 
 let dummyId = 1
 let access_token = ''
 let TherapistId
 let orderId = 1
+let access_token_client2
 
 describe('POST/client/register', function() {
   afterAll(function(done) {
@@ -415,6 +417,14 @@ describe('PUT/client/:id', function() {
             access_token = loginToken(payload)
             dummyId = data.id
             // console.log(dummyId, 'ini dummy iddddd')
+            return registerClient2()
+        })
+        .then(data => {
+            let payload = {
+                id: data.id,
+                email: data.email
+            }
+            access_token_client2 = loginToken(payload)
             done()
         })
         .catch(err => {
@@ -471,7 +481,7 @@ describe('PUT/client/:id', function() {
         //setup
         const body = {
             fullName: '',
-            email: 'tes@mail.com',
+            photoUrl: 'link baru',
             birthDate: new Date('2001-04-01'),
             gender: 'male',
             city: 'jakarta'
@@ -501,8 +511,6 @@ describe('PUT/client/:id', function() {
       //setup
       const body = {
           fullName: 'budisfsdf',
-          email: 'tes@mail.com',
-          password: 'tes123',
           photoUrl: '',
           birthDate: new Date('2001-04-01'),
           gender: 'male',
@@ -563,8 +571,6 @@ describe('PUT/client/:id', function() {
       //setup
       const body = {
           fullName: 'asdas',
-          email: 'tes@mail.com',
-          password: 'tes123',
           photoUrl: 'tyusdgtfu',
           birthDate: new Date('2001-04-01'),
           gender: '',
@@ -595,8 +601,6 @@ describe('PUT/client/:id', function() {
       //setup
       const body = {
           fullName: 'budisdfa',
-          email: 'tes@mail.com',
-          password: 'tes123',
           photoUrl: 'tyusdgtfu',
           birthDate: new Date('2001-04-01'),
           gender: 'male',
@@ -671,6 +675,33 @@ describe('PUT/client/:id', function() {
                 expect(typeof res.body).toEqual('object')
                 expect(res.body).toHaveProperty('message')
                 expect(res.body.message).toEqual('You need to login first')
+  
+                done()
+            })
+  
+    })
+    it('should send response with 401 status code', function(done) {
+        //setup
+        const body = {
+            fullName: 'asd',
+            photoUrl: 'lah',
+            birthDate: new Date('2001-04-01'),
+            gender: 'male',
+            city: 'jakarta'
+        }
+        //execute
+        request(app)
+            .put(`/client/${dummyId}`)
+            .set('access_token', access_token_client2)
+            .send(body)
+            .end((err, res) => {
+                if (err) done(err)
+  
+                //assert
+                expect(res.statusCode).toEqual(401)
+                expect(typeof res.body).toEqual('object')
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toEqual('Unauthorized')
   
                 done()
             })
@@ -1208,6 +1239,7 @@ describe('DELETE/client/order/:id', function() {
 })
 
 describe('GET/client/therapist', function() {
+    let jwt_hacker = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZW1haWwiOiJiZWx1bSByZWdpc3RlciB0YXBpIHRhdSBzZWNyZXQga2V5IiwiaWF0IjoxNTE2MjM5MDIyfQ.3TrYYRuwg1UoQMek70RheaPIzgbPVvT1Rkyop_dRoy0'
     beforeAll(function(done) {
         registerClient()
         .then(data => {
@@ -1263,6 +1295,25 @@ describe('GET/client/therapist', function() {
             expect(typeof res.body).toEqual('object')
             expect(res.body).toHaveProperty('message')
             expect(res.body.message).toEqual('You need to login first')
+    
+            done()
+        })
+      })
+
+      it('should send response with 400 status code', function(done) {
+        //setup
+        //execute
+      request(app)
+        .get(`/client/therapist`)
+        .set('access_token',  jwt_hacker)
+        .end((err, res) => {
+            if (err) done(err)
+    
+            //assert
+            expect(res.statusCode).toEqual(400)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            expect(res.body.message).toEqual('Invalid Email / Password')
     
             done()
         })

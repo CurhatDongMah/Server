@@ -1225,6 +1225,7 @@ describe('PATCH /therapist/order/:id', () => {
 })
 
 describe('GET /therapist/clients', () => {
+  let jwt_hacker = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZW1haWwiOiJiZWx1bSByZWdpc3RlciB0YXBpIHRhdSBzZWNyZXQga2V5IiwiaWF0IjoxNTE2MjM5MDIyfQ.3TrYYRuwg1UoQMek70RheaPIzgbPVvT1Rkyop_dRoy0'
   beforeAll(function(done) {
     registerTherapist1()
       .then(data => {
@@ -1266,7 +1267,7 @@ describe('GET /therapist/clients', () => {
         })
 
 })
-it('should send response with 401 status code', function(done) {
+  it('should send response with 401 status code', function(done) {
     //setup
     //execute
   request(app)
@@ -1279,6 +1280,25 @@ it('should send response with 401 status code', function(done) {
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('message')
         expect(res.body.message).toEqual('You need to login first')
+
+        done()
+    })
+  })
+
+  it('should send response with 400 status code', function(done) {
+    //setup
+    //execute
+  request(app)
+    .get(`/therapist/clients`)
+    .set('access_token',  jwt_hacker)
+    .end((err, res) => {
+        if (err) done(err)
+
+        //assert
+        expect(res.statusCode).toEqual(400)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('message')
+        expect(res.body.message).toEqual('Invalid Email / Password')
 
         done()
     })
