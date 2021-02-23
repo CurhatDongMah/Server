@@ -11,17 +11,24 @@ const router  = require('express').Router()
 router.post('/register', ClientController.register)
 router.post('/login', ClientController.login)
 router.use(authenticationClient)
-router.get('/review/:id', ReviewController.getReview)
-router.get('/therapist', ClientController.getTherapist)
+
+//order 
 router.post('/order', OrderController.create)
 router.patch('/order/:id', OrderController.changeStatus)
 router.delete('/order/:id', OrderController.delete)
-router.get('/alltherapists', TherapistController.getAll)
 router.put('/:id', authorizeClient, ClientController.update)
 router.delete('/:id', authorizeClient, ClientController.delete)
+
+router.get('/therapist', ClientController.getTherapist)  //Alltherapist
+router.get('/alltherapists', TherapistController.getAll) //All Therapist status true
+
+//history order
 router.get('/history', ClientController.findHistory)
 router.get('/ongoing', ClientController.findOnGoing)
+
+//Review
 router.post('/review', ReviewController.create)
+router.get('/review/:id', ReviewController.getReview)
 
 
 
