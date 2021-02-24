@@ -126,6 +126,9 @@ class TherapistController {
         TherapistId,
         status: "completed"
       },
+      order: [
+        ['updatedAt', 'DESC']
+      ],
       include: {
         model: Client,
         attributes: {exclude: ["password"] }, required: false 
